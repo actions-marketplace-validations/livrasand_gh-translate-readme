@@ -285,23 +285,6 @@ async function run(overrides = {}) {
             return existingBadgesMap.get(code);
           }
 
-          if (code !== lang) {
-            let name = code;
-            try {
-              name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
-            } catch {
-              name = code;
-            }
-            const slug = `ghtr-${String(code)
-              .toLowerCase()
-              .replace(/[^a-z0-9_-]/g, "-")}`;
-            return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
-              name,
-            )}-${percentageSegment}-white.svg?logo=${encodeURIComponent(
-              slug,
-            )}&labelColor=white&color=white)](README.${code}.md)`;
-          }
-
           const explicitFlag = (deps.getInput("FLAG") || "").trim();
           const explicitName = (deps.getInput("LANG_NAME") || "").trim();
 
