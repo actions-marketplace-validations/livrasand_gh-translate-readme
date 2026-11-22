@@ -76,7 +76,9 @@ Check [here](https://github.com/dephraiim/translate-readme/issues/1) for issues 
 
 ### Development
 
-Suggestions and contributions are always welcome!
+Suggestions and contributions are always welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md)
+for test commands, error codes and debugging tips. Run `npm ci && npm run verify` before
+opening a pull request.
 
 ### LICENSE
 
