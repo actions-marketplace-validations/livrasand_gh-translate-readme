@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://flagcdn.com/24x18/in.png)](README.ar.md) [![French](https://flagcdn.com/24x18/in.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/in.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/in.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/in.png)](README.zh-TW.md)
+[![Arabic](https://flagcdn.com/24x18/sa.png)](README.ar.md) [![French](https://flagcdn.com/24x18/fr.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/in.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/cn.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/tw.png)](README.zh-TW.md)
 
 # ترجمة الإجراء التمهيدي
 
@@ -60,7 +60,7 @@ jobs:
 يمكنك تكوين الإجراء بشكل أكبر باستخدام الخيارات التالية:
 
 -   `LANG`: اللغة التي تريد ترجمة الملف التمهيدي إليها (الافتراضي:`zh-CN`).
--   `PROVIDER`: مزود الترجمة للاستخدام:`google`(الافتراضي) أو`libretranslate`.
+-   `PROVIDER`: مزود الترجمة المطلوب استخدامه:`google`(الافتراضي) أو`libretranslate`.
 -   `LIBRETRANSLATE_URL`: عنوان URL لواجهة برمجة تطبيقات LibreTranslate (الافتراضي:`http://localhost:5000`).
 -   `LIBRETRANSLATE_API_KEY`: مفتاح API إذا كان مثيل LibreTranslate الخاص بك يتطلب المصادقة (اختياري).
 -   `SOURCE_LANG`: كود اللغة المصدر (الافتراضي:`auto`).
