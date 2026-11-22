@@ -180,7 +180,7 @@ async function run(overrides = {}) {
               ru: "ru",
               it: "it",
             };
-            const cc = (deps.getInput("FLAG") || "").trim() || countryCodes[code] || code;
+            const cc = countryCodes[code] || code;
             let name = code;
             try {
               name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
