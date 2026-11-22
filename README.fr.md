@@ -1,3 +1,5 @@
+![Translated to fr](https://custom-icon-badges.demolab.com/badge/fr-100%25-white.svg?logo=translate)
+
 # Traduire l’action Lisez-moi
 
 ## Traduction du fichier README
