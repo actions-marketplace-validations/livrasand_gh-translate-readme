@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://flagcdn.com/24x18/sa.png)](README.ar.md) [![French](https://flagcdn.com/24x18/fr.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/in.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/cn.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/tw.png)](README.zh-TW.md)
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
 # ترجمة الإجراء التمهيدي
 
@@ -60,7 +60,7 @@ jobs:
 يمكنك تكوين الإجراء بشكل أكبر باستخدام الخيارات التالية:
 
 -   `LANG`: اللغة التي تريد ترجمة الملف التمهيدي إليها (الافتراضي:`zh-CN`).
--   `PROVIDER`: مزود الترجمة المطلوب استخدامه:`google`(الافتراضي) أو`libretranslate`.
+-   `PROVIDER`: مزود الترجمة للاستخدام:`google`(الافتراضي) أو`libretranslate`.
 -   `LIBRETRANSLATE_URL`: عنوان URL لواجهة برمجة تطبيقات LibreTranslate (الافتراضي:`http://localhost:5000`).
 -   `LIBRETRANSLATE_API_KEY`: مفتاح API إذا كان مثيل LibreTranslate الخاص بك يتطلب المصادقة (اختياري).
 -   `SOURCE_LANG`: كود اللغة المصدر (الافتراضي:`auto`).
