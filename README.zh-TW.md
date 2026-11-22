@@ -1,6 +1,8 @@
-![Translated to zh-TW](https://custom-icon-badges.demolab.com/badge/zh-TW-100%25-white.svg?logo=ghtr-zh-TW)
+![Translated to zh-TW](https://custom-icon-badges.demolab.com/badge/zh-TW-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)
 
-<!-- translate-readme:badges -->\n\n
+<!-- translate-readme:badges -->\n\n<!-- translate-readme:badges -->
+
+# 翻譯自述文件操作
 
 ## 自述文件翻譯
 
