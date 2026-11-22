@@ -1,8 +1,6 @@
-![Translated to हिंदी](https://custom-icon-badges.demolab.com/badge/%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)
-
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
 # रीडमी एक्शन का अनुवाद करें
 
@@ -66,10 +64,11 @@ jobs:
 -   `LIBRETRANSLATE_URL`: आपके लिब्रेट्रांसलेट एपीआई का यूआरएल (डिफ़ॉल्ट:`http://localhost:5000`).
 -   `LIBRETRANSLATE_API_KEY`: एपीआई कुंजी यदि आपके लिबरट्रांसलेट इंस्टेंस को प्रमाणीकरण की आवश्यकता है (वैकल्पिक)।
 -   `SOURCE_LANG`: स्रोत भाषा कोड (डिफ़ॉल्ट:`auto`).
+-   `IGNORE`: अल्पविराम से अलग किए गए भाषा कोड को छोड़ना होगा (उदा.`fr,es`). इसका उपयोग तब करें जब किसी भाषा का मैन्युअल रूप से अनुवाद किया गया हो ताकि क्रिया उसे अधिलेखित न कर दे।
 
 ### लिबरट्रांसलेट का उपयोग करना (GitHub क्रियाओं में स्व-होस्ट किया गया)
 
-तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub Actions वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
+तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub एक्शन वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
 
 ```yaml
 name: Translate README
@@ -105,6 +104,10 @@ jobs:
 
 -   Google अनुवाद का उपयोग करते समय (`PROVIDER: google`):[https://cloud.google.com/translate/docs/भाषाएँ](https://cloud.google.com/translate/docs/languages)
 -   लिब्रेट्रांसलेट का उपयोग करते समय (`PROVIDER: libretranslate`): मानक आईएसओ 639-1 भाषा कोड (उदा.`es`,`fr`,`de`,`zh`,`hi`,`ar`, आदि) आपके लिबरट्रांसलेट उदाहरण द्वारा समर्थित है।
+
+### मैन्युअल रूप से अनुवादित भाषाओं को अनदेखा करना
+
+यदि आप किसी README का मैन्युअल रूप से अनुवाद करते हैं, तो उसका भाषा कोड इसमें जोड़ें`IGNORE`(उदाहरण के लिए`IGNORE: fr,es`) उस भाषा के लिए वर्कफ़्लो चरण में, या चरण को पूरी तरह से अक्षम कर दें, ताकि कार्रवाई आपके कार्य को अधिलेखित न कर दे।`IGNORE`किसी भी अनुवाद या फ़ाइल लिखने से पहले चेक चलता है।
 
 ### समस्याएँ
 
