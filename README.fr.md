@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
+[![عربى](https://custom-icon-badges.demolab.com/badge/%D8%B9%D8%B1%D8%A8%D9%89-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![Française](https://custom-icon-badges.demolab.com/badge/Fran%C3%A7aise-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![हिंदी](https://custom-icon-badges.demolab.com/badge/%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87--white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![繁体中文](https://custom-icon-badges.demolab.com/badge/%E7%B9%81%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
 
 # Action Lisez-moi de traduction GitHub
 
@@ -82,6 +82,7 @@ Vous pouvez configurer davantage l'action avec les options suivantes :
 -   `IGNORE`: Codes de langue séparés par des virgules à ignorer (par ex.`fr,es`). Utilisez-le lorsqu'une langue a été traduite manuellement afin que l'action ne l'écrase pas.
 -   `FLAG`: Code pays/drapeau utilisé pour le badge de langue (par ex.`cn`,`fr`). Facultatif; par défaut, un mappage intégré est utilisé lorsqu'il est omis.
 -   `LANG_NAME`: Nom d'affichage de la langue cible utilisée dans les badges (facultatif).
+-   `SHOW_PERCENTAGE`: Afficher le pourcentage traduit dans les badges de langue (`true`/`false`, défaut:`true`). Régler sur`false`pour le cacher.
 
 ### Utilisation de LibreTranslate (auto-hébergé dans les actions GitHub)
 
