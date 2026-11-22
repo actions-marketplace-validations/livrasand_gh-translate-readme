@@ -18071,9 +18071,32 @@ async function run(overrides = {}) {
           .map((name) => name.match(/^README\.(.+)\.md$/)[1])
           .sort();
         const badgePromises = langs.map(async (code) => {
+          // Only the language being translated in this run uploads its flag.
+          // Re-uploading every language on every run exhausts the custom-icon-badges
+          // rate limit (10 POSTs / 5 min) and makes most flags disappear, leaving
+          // only the first ones (e.g. Chinese) visible. Other languages already
+          // uploaded their flag when they ran as the current language, so we just
+          // reference the existing slug here.
+          if (code !== lang) {
+            let name = code;
+            try {
+              name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
+            } catch {
+              name = code;
+            }
+            const slug = `ghtr-${String(code)
+              .toLowerCase()
+              .replace(/[^a-z0-9_-]/g, "-")}`;
+            return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
+              name,
+            )}-100%25-white.svg?logo=${encodeURIComponent(
+              slug,
+            )}&labelColor=white&color=white)](README.${code}.md)`;
+          }
+
           try {
-            const explicitFlag = code === lang ? (deps.getInput("FLAG") || "").trim() : "";
-            const explicitName = code === lang ? (deps.getInput("LANG_NAME") || "").trim() : "";
+            const explicitFlag = (deps.getInput("FLAG") || "").trim();
+            const explicitName = (deps.getInput("LANG_NAME") || "").trim();
             const badge = await deps.flagBadgeClient(code, {
               flag: explicitFlag,
               langName: explicitName,
