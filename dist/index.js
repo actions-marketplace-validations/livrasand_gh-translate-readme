@@ -17278,9 +17278,8 @@ function normalizeLibreTranslateLang(lang) {
   if (typeof lang !== "string") {
     return "";
   }
-  const trimmed = lang.trim();
-  const lower = trimmed.toLowerCase();
-  if (lower.startsWith("zh-")) {
+  const trimmed = lang.trim().toLowerCase();
+  if (trimmed.startsWith("zh-")) {
     return "zh";
   }
   return trimmed;
@@ -17307,10 +17306,11 @@ function createLibreTranslateClient({
     }
 
     const target = normalizeLibreTranslateLang(targetLang);
+    const source = normalizeLibreTranslateLang(sourceLang) || "auto";
     const endpoint = `${baseUrl}/translate`;
     const payload = {
       q: text,
-      source: sourceLang || "auto",
+      source,
       target,
       format: "text",
     };
@@ -17338,27 +17338,32 @@ function createLibreTranslateClient({
     }
 
     let data;
+    let parseError;
     try {
       data = await response.json();
-    } catch (parseError) {
-      throw new ActionError({
-        code: "TRANSLATION_FAILED",
-        step: "translate",
-        message: `Failed to parse LibreTranslate response as JSON: ${parseError.message}`,
-        details: { status: response.status },
-        cause: parseError,
-      });
+    } catch (error) {
+      parseError = error;
     }
 
     if (!response.ok) {
       const errorMsg =
-        (data && (data.error || data.message)) ||
+        (!parseError && data && (data.error || data.message)) ||
         `HTTP ${response.status} ${response.statusText || "error"}`;
       throw new ActionError({
         code: "TRANSLATION_FAILED",
         step: "translate",
         message: `LibreTranslate error: ${errorMsg}`,
         details: { status: response.status, response: data },
+      });
+    }
+
+    if (parseError) {
+      throw new ActionError({
+        code: "TRANSLATION_FAILED",
+        step: "translate",
+        message: `Failed to parse LibreTranslate response as JSON: ${parseError.message}`,
+        details: { status: response.status },
+        cause: parseError,
       });
     }
 
@@ -17604,11 +17609,17 @@ function buildDependencies(overrides = {}, adapters = {}) {
     ((text, lang) => {
       const rawProvider = (getInput("PROVIDER") || "").trim().toLowerCase();
       if (rawProvider === "libretranslate") {
-        const rawLibreUrl =
-          getInput("LIBRETRANSLATE_URL") || getInput("API_URL") || "http://localhost:5000";
-        const rawLibreApiKey =
-          getInput("LIBRETRANSLATE_API_KEY") || getInput("API_KEY") || "";
-        const rawSourceLang = getInput("SOURCE_LANG") || "auto";
+        const rawLibreUrl = (
+          getInput("LIBRETRANSLATE_URL") ||
+          getInput("API_URL") ||
+          "http://localhost:5000"
+        ).trim();
+        const rawLibreApiKey = (
+          getInput("LIBRETRANSLATE_API_KEY") ||
+          getInput("API_KEY") ||
+          ""
+        ).trim();
+        const rawSourceLang = (getInput("SOURCE_LANG") || "auto").trim();
         const client = createLibreTranslateClient({
           url: rawLibreUrl,
           apiKey: resolveLibreTranslateApiKey(rawLibreApiKey),

@@ -55,11 +55,17 @@ function buildDependencies(overrides = {}, adapters = {}) {
     ((text, lang) => {
       const rawProvider = (getInput("PROVIDER") || "").trim().toLowerCase();
       if (rawProvider === "libretranslate") {
-        const rawLibreUrl =
-          getInput("LIBRETRANSLATE_URL") || getInput("API_URL") || "http://localhost:5000";
-        const rawLibreApiKey =
-          getInput("LIBRETRANSLATE_API_KEY") || getInput("API_KEY") || "";
-        const rawSourceLang = getInput("SOURCE_LANG") || "auto";
+        const rawLibreUrl = (
+          getInput("LIBRETRANSLATE_URL") ||
+          getInput("API_URL") ||
+          "http://localhost:5000"
+        ).trim();
+        const rawLibreApiKey = (
+          getInput("LIBRETRANSLATE_API_KEY") ||
+          getInput("API_KEY") ||
+          ""
+        ).trim();
+        const rawSourceLang = (getInput("SOURCE_LANG") || "auto").trim();
         const client = createLibreTranslateClient({
           url: rawLibreUrl,
           apiKey: resolveLibreTranslateApiKey(rawLibreApiKey),
