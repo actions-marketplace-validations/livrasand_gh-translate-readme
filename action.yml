@@ -23,6 +23,10 @@ inputs:
     description: 'Source language code (default: auto)'
     required: false
     default: 'auto'
+  IGNORE:
+    description: 'Comma-separated language codes to skip (e.g. "fr,es")'
+    required: false
+    default: ''
   LANG_NAME:
     description: 'Display name for the target language used in badges (optional)'
     required: false

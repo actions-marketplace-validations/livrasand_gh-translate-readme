@@ -103,6 +103,14 @@ async function run(overrides = {}) {
   try {
     step = "config";
     const lang = resolveLanguage(deps.getInput("LANG"));
+    const ignored = (deps.getInput("IGNORE") || "")
+      .split(",")
+      .map((value) => value.trim())
+      .filter(Boolean);
+    if (ignored.includes(lang)) {
+      logger.step("config", "Language is ignored; skipping translation", { lang });
+      return { ok: true, lang, skipped: true };
+    }
     const provider = resolveProvider(deps.getInput("PROVIDER"));
     const sourceLang = resolveSourceLang(deps.getInput("SOURCE_LANG"));
     let libreTranslateUrl;
@@ -141,15 +149,7 @@ async function run(overrides = {}) {
     step = "write";
     const outputFile = `README.${lang}.md`;
     const outputPath = join(deps.cwd, outputFile);
-    const translatedPercent =
-      stats.total > 0 ? Math.round((stats.succeeded / stats.total) * 100) : 100;
-    const displayName = (deps.getInput("LANG_NAME") || "").trim() || lang;
-    const badge = `![Translated to ${displayName}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
-      displayName,
-    )}-${translatedPercent}%25-white.svg?logo=ghtr-${encodeURIComponent(
-      lang,
-    )}&labelColor=white&color=white)\n\n`;
-    deps.writeFile(outputPath, badge + toMarkdown(source.ast), "utf8");
+    deps.writeFile(outputPath, toMarkdown(source.ast), "utf8");
 
     // Optionally keep the main README's translation badge list up to date.
     try {
@@ -173,7 +173,7 @@ async function run(overrides = {}) {
             }
             return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
               name,
-            )}-white.svg?logo=ghtr-${encodeURIComponent(
+            )}-100%25-white.svg?logo=ghtr-${encodeURIComponent(
               code,
             )}&labelColor=white&color=white)](README.${code}.md)`;
           })

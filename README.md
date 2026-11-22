@@ -60,6 +60,7 @@ You can configure the action further with the following options:
 - `LIBRETRANSLATE_URL`: The URL of your LibreTranslate API (default: `http://localhost:5000`).
 - `LIBRETRANSLATE_API_KEY`: API key if your LibreTranslate instance requires authentication (optional).
 - `SOURCE_LANG`: Source language code (default: `auto`).
+- `IGNORE`: Comma-separated language codes to skip (e.g. `fr,es`). Use this when a language has been translated manually so the action does not overwrite it.
 
 ### Using LibreTranslate (Self-Hosted in GitHub Actions)
 
@@ -99,6 +100,10 @@ jobs:
 
 - When using Google Translate (`PROVIDER: google`): https://cloud.google.com/translate/docs/languages
 - When using LibreTranslate (`PROVIDER: libretranslate`): Standard ISO 639-1 language codes (e.g. `es`, `fr`, `de`, `zh`, `hi`, `ar`, etc.) supported by your LibreTranslate instance.
+
+### Ignoring manually translated languages
+
+If you translate a README manually, add its language code to `IGNORE` (for example `IGNORE: fr,es`) in the workflow step for that language, or disable the step entirely, so the action does not overwrite your work. The `IGNORE` check runs before any translation or file write.
 
 ### Issues
 
