@@ -1,4 +1,4 @@
-<!-- translate-readme:badges -->
+<!-- translate-readme:badges -->\n\n<!-- translate-readme:badges -->
 
 # Translate Readme Action
 
