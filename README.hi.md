@@ -1,4 +1,4 @@
-![Translated to hi](https://custom-icon-badges.demolab.com/badge/hi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)
+![Translated to हिंदी](https://custom-icon-badges.demolab.com/badge/%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)
 
 <!-- translate-readme:badges -->\n\n\n<!-- translate-readme:badges -->
 
