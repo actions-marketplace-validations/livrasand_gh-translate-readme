@@ -1,8 +1,6 @@
-![Translated to عربى](https://custom-icon-badges.demolab.com/badge/%D8%B9%D8%B1%D8%A8%D9%89-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)
-
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
 # ترجمة الإجراء التمهيدي
 
@@ -62,10 +60,11 @@ jobs:
 يمكنك تكوين الإجراء بشكل أكبر باستخدام الخيارات التالية:
 
 -   `LANG`: اللغة التي تريد ترجمة الملف التمهيدي إليها (الافتراضي:`zh-CN`).
--   `PROVIDER`: مزود الترجمة المطلوب استخدامه:`google`(الافتراضي) أو`libretranslate`.
+-   `PROVIDER`: مزود الترجمة للاستخدام:`google`(الافتراضي) أو`libretranslate`.
 -   `LIBRETRANSLATE_URL`: عنوان URL لواجهة برمجة تطبيقات LibreTranslate (الافتراضي:`http://localhost:5000`).
 -   `LIBRETRANSLATE_API_KEY`: مفتاح API إذا كان مثيل LibreTranslate الخاص بك يتطلب المصادقة (اختياري).
 -   `SOURCE_LANG`: كود اللغة المصدر (الافتراضي:`auto`).
+-   `IGNORE`: رموز اللغة المفصولة بفواصل التي يجب تخطيها (على سبيل المثال:`fr,es`). استخدم هذا عندما تتم ترجمة لغة ما يدويًا حتى لا يحل الإجراء محلها.
 
 ### استخدام LibreTranslate (الاستضافة الذاتية في إجراءات GitHub)
 
@@ -106,13 +105,17 @@ jobs:
 -   عند استخدام ترجمة جوجل (`PROVIDER: google`):<https://cloud.google.com/translate/docs/languages>
 -   عند استخدام LibreTranslate (`PROVIDER: libretranslate`): رموز اللغة القياسية ISO 639-1 (على سبيل المثال.`es`,`fr`,`de`,`zh`,`hi`,`ar`، وما إلى ذلك) مدعومًا بمثيل LibreTranslate الخاص بك.
 
+### تجاهل اللغات المترجمة يدوياً
+
+إذا قمت بترجمة ملف README يدويًا، فأضف رمز اللغة الخاص به إلى`IGNORE`(على سبيل المثال`IGNORE: fr,es`) في خطوة سير العمل لتلك اللغة، أو قم بتعطيل الخطوة بالكامل، بحيث لا يقوم الإجراء بالكتابة فوق عملك. ال`IGNORE`يتم تشغيل الفحص قبل أي ترجمة أو كتابة ملف.
+
 ### مشاكل
 
 يفحص[هنا](https://github.com/dephraiim/translate-readme/issues/1)للقضايا المتعلقة بهذا الإجراء.
 
 ### تطوير
 
-الاقتراحات والمساهمات هي دائما موضع ترحيب! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
+الاقتراحات والمساهمات هي موضع ترحيب دائما! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
 فتح طلب سحب.
 
 ### رخصة
