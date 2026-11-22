@@ -1,23 +1,23 @@
 # रीडमी एक्शन का अनुवाद करें
 
-## रीडमे अनुवाद
+## रीडमी अनुवाद
 
 -   [अंग्रेज़ी](README.md)
 -   [सरलीकृत चीनी](README.zh-CN.md)
 -   [परंपरागत चीनी](README.zh-TW.md)
 -   [हिंदी](README.hi.md)
--   [फ्रेंच](README.fr.md)
+-   [फ़्रैन्साइज़](README.fr.md)
 -   [अरब](README.ar.md)
 
-**रीडमी का किसी भी भाषा में अनुवाद करने के लिए गिटहब एक्शन**
+**रीडमी को किसी भी भाषा में अनुवाद करने के लिए GitHub एक्शन**
 
-यह एक गिटहब एक्शन है जो आपके रेपो में रीडमी को एक निर्दिष्ट भाषा में स्वचालित रूप से अनुवादित करता है।
+यह एक GitHub क्रिया है जो स्वचालित रूप से आपके रेपो में रीडमी को एक निर्दिष्ट भाषा में अनुवादित करती है।
 
-_के लिए एक सबमिशन[DEV: ओपन सोर्स के लिए गिटहब एक्शन!](https://dev.to/devteam/announcing-the-github-actions-hackathon-on-dev-3ljn)आयोजित हैकथॉन_
+_के लिए एक सबमिशन[DEV: ओपन सोर्स के लिए GitHub क्रियाएँ!](https://dev.to/devteam/announcing-the-github-actions-hackathon-on-dev-3ljn)आयोजित हैकथॉन_
 
 ## स्थापित करना
 
-1.  **कार्यप्रवाह फ़ाइल जोड़ें**आपकी परियोजना के लिए (उदा।`.github/workflows/readme.yml`):
+1.  **वर्कफ़्लो फ़ाइल जोड़ें**आपके प्रोजेक्ट के लिए (उदा.`.github/workflows/readme.yml`):
 
 ```yaml
 name: Translate README
@@ -30,29 +30,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 12.x
-      # ISO Langusge Codes: https://cloud.google.com/translate/docs/languages  
+          node-version: '20'
+      # ISO Language Codes: https://cloud.google.com/translate/docs/languages  
       - name: Adding README - Chinese Simplified
         uses: dephraiim/translate-readme@main
         with:
           LANG: zh-CN
-      - name: Adding README - Chinese Traditional
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: zh-TW
-      - name: Adding README - Hindi
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: hi
-      - name: Adding README - Arabic
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: ar
       - name: Adding README - French
         uses: dephraiim/translate-readme@main
         with:
@@ -63,22 +53,61 @@ jobs:
 
 ### विकल्प
 
-आप निम्न विकल्पों के साथ कार्रवाई को और कॉन्फ़िगर कर सकते हैं:
+आप निम्नलिखित विकल्पों के साथ कार्रवाई को आगे कॉन्फ़िगर कर सकते हैं:
 
--   `LANG`: The language you want to translate your readme to. The default is Simplified Chinese. (I'm a Ghanaian) The supported languages can be found below.
-    (default: `zh-CH`) (आवश्यक:`false`)
+-   `LANG`: वह भाषा जिसमें आप अपने रीडमी का अनुवाद करना चाहते हैं (डिफ़ॉल्ट:`zh-CN`).
+-   `PROVIDER`: उपयोग करने के लिए अनुवाद प्रदाता:`google`(डिफ़ॉल्ट) या`libretranslate`.
+-   `LIBRETRANSLATE_URL`: आपके लिब्रेट्रांसलेट एपीआई का यूआरएल (डिफ़ॉल्ट:`http://localhost:5000`).
+-   `LIBRETRANSLATE_API_KEY`: एपीआई कुंजी यदि आपके लिबरट्रांसलेट इंस्टेंस को प्रमाणीकरण की आवश्यकता है (वैकल्पिक)।
+-   `SOURCE_LANG`: स्रोत भाषा कोड (डिफ़ॉल्ट:`auto`).
+
+### लिबरट्रांसलेट का उपयोग करना (GitHub क्रियाओं में स्व-होस्ट किया गया)
+
+तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub Actions वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
+
+```yaml
+name: Translate README
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    services:
+      libretranslate:
+        image: libretranslate/libretranslate:latest
+        ports:
+          - 5000:5000
+        env:
+          LT_LOAD_ONLY: en,es,fr,zh,hi,ar
+    steps:
+      - uses: actions/checkout@v4
+      - name: Adding README - Spanish
+        uses: dephraiim/translate-readme@main
+        with:
+          LANG: es
+          PROVIDER: libretranslate
+          LIBRETRANSLATE_URL: http://localhost:5000
+```
 
 ## समर्थित भाषाएँ
 
-समर्थित भाषाएँ यहाँ पाई जा सकती हैं[हत्तपः://क्लाउड.गूगल.कॉम/ट्रांसलेट/डॉक्स/लैंग्वेजेज](https://cloud.google.com/translate/docs/languages)
+-   Google अनुवाद का उपयोग करते समय (`PROVIDER: google`):[https://cloud.google.com/translate/docs/भाषाएँ](https://cloud.google.com/translate/docs/languages)
+-   लिब्रेट्रांसलेट का उपयोग करते समय (`PROVIDER: libretranslate`): मानक आईएसओ 639-1 भाषा कोड (उदा.`es`,`fr`,`de`,`zh`,`hi`,`ar`, आदि) आपके लिबरट्रांसलेट उदाहरण द्वारा समर्थित है।
 
-### मुद्दे
+### समस्याएँ
 
-जांच[यहां](https://github.com/dephraiim/translate-readme/issues/1)इस कार्रवाई से संबंधित मुद्दों के लिए।
+जाँच करना[यहाँ](https://github.com/dephraiim/translate-readme/issues/1)इस कार्रवाई से संबंधित मुद्दों के लिए.
 
 ### विकास
 
-सुझावों और योगदानों का हमेशा स्वागत है!
+सुझावों और योगदानों का हमेशा स्वागत है! देखना[योगदान.एमडी](./CONTRIBUTING.md)परीक्षण आदेशों, त्रुटि कोड और डिबगिंग युक्तियों के लिए। दौड़ना`npm ci && npm run verify`पहले
+एक पुल अनुरोध खोलना.
 
 ### लाइसेंस
 
