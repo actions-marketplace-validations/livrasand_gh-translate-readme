@@ -1,6 +1,6 @@
-![Translated to hi](https://custom-icon-badges.demolab.com/badge/hi-100%25-white.svg?logo=translate)
+![Translated to hi](https://custom-icon-badges.demolab.com/badge/hi-100%25-white.svg?logo=ghtr-hi)
 
-# रीडमी एक्शन का अनुवाद करें
+<!-- translate-readme:badges -->\n\n
 
 ## रीडमी अनुवाद
 
@@ -65,7 +65,7 @@ jobs:
 
 ### लिबरट्रांसलेट का उपयोग करना (GitHub क्रियाओं में स्व-होस्ट किया गया)
 
-तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub Actions वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
+तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub एक्शन वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
 
 ```yaml
 name: Translate README
