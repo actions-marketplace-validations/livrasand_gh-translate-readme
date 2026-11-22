@@ -7,6 +7,22 @@ inputs:
     description: 'The Language you want to translate to'
     required: false
     default: 'zh-CN'
+  PROVIDER:
+    description: 'Translation provider to use (google, libretranslate)'
+    required: false
+    default: 'google'
+  LIBRETRANSLATE_URL:
+    description: 'LibreTranslate API URL'
+    required: false
+    default: 'http://localhost:5000'
+  LIBRETRANSLATE_API_KEY:
+    description: 'LibreTranslate API Key (optional)'
+    required: false
+    default: ''
+  SOURCE_LANG:
+    description: 'Source language code (default: auto)'
+    required: false
+    default: 'auto'
 
 runs:
   using: 'node20'

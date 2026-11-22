@@ -8,7 +8,14 @@ const { createGitClient } = require("./git-client");
 
 const { wrapError, formatError } = require("./errors");
 const { createLogger } = require("./logger");
-const { resolveLanguage } = require("./config");
+const {
+  resolveLanguage,
+  resolveProvider,
+  resolveLibreTranslateUrl,
+  resolveLibreTranslateApiKey,
+  resolveSourceLang,
+} = require("./config");
+const { createLibreTranslateClient } = require("./libretranslate");
 const { resolveSource } = require("./readme");
 const { toMarkdown } = require("./markdown");
 const { translateNodes } = require("./translator");
@@ -37,20 +44,46 @@ function buildDependencies(overrides = {}, adapters = {}) {
     translate: translateAdapter = translateApi,
     git: gitAdapter = createGitClient,
     fs: fsAdapter = { readdirSync, readFileSync, writeFileSync },
+    fetch: fetchAdapter = globalThis.fetch,
   } = adapters;
+
+  const fetchClient = overrides.fetch || fetchAdapter;
+  const getInput = overrides.getInput || ((name) => coreAdapter.getInput(name));
+
+  const translate =
+    overrides.translate ||
+    ((text, lang) => {
+      const rawProvider = (getInput("PROVIDER") || "").trim().toLowerCase();
+      if (rawProvider === "libretranslate") {
+        const rawLibreUrl =
+          getInput("LIBRETRANSLATE_URL") || getInput("API_URL") || "http://localhost:5000";
+        const rawLibreApiKey =
+          getInput("LIBRETRANSLATE_API_KEY") || getInput("API_KEY") || "";
+        const rawSourceLang = getInput("SOURCE_LANG") || "auto";
+        const client = createLibreTranslateClient({
+          url: rawLibreUrl,
+          apiKey: resolveLibreTranslateApiKey(rawLibreApiKey),
+          sourceLang: rawSourceLang,
+          fetchClient,
+        });
+        return client(text, lang);
+      }
+      return translateAdapter(text, { to: lang });
+    });
 
   return {
     cwd: process.cwd(),
-    getInput: (name) => coreAdapter.getInput(name),
+    getInput,
     setFailed: (message) => coreAdapter.setFailed(message),
     readdir: (dir) => fsAdapter.readdirSync(dir),
     readFile: (path, encoding) => fsAdapter.readFileSync(path, encoding),
     writeFile: (path, data, encoding) => fsAdapter.writeFileSync(path, data, encoding),
-    translate: (text, lang) => translateAdapter(text, { to: lang }),
+    translate,
     createGit: () => gitAdapter(),
     sleep: defaultSleep,
     concurrency: 5,
     retries: 2,
+    fetch: fetchClient,
     ...overrides,
     logger: createLogger(overrides.logger || console),
   };
@@ -64,7 +97,21 @@ async function run(overrides = {}) {
   try {
     step = "config";
     const lang = resolveLanguage(deps.getInput("LANG"));
-    logger.step("config", "Language resolved", { lang });
+    const provider = resolveProvider(deps.getInput("PROVIDER"));
+    const sourceLang = resolveSourceLang(deps.getInput("SOURCE_LANG"));
+    let libreTranslateUrl;
+    if (provider === "libretranslate") {
+      libreTranslateUrl = resolveLibreTranslateUrl(
+        deps.getInput("LIBRETRANSLATE_URL") || deps.getInput("API_URL")
+      );
+    }
+
+    logger.step("config", "Configuration resolved", {
+      lang,
+      provider,
+      sourceLang,
+      ...(libreTranslateUrl ? { libreTranslateUrl } : {}),
+    });
 
     step = "read";
     const source = resolveSource(deps);
@@ -100,7 +147,7 @@ async function run(overrides = {}) {
     });
 
     logger.info("Done");
-    return { ok: true, lang, outputFile, outputPath, stats, git: gitResult };
+    return { ok: true, lang, provider, outputFile, outputPath, stats, git: gitResult };
   } catch (error) {
     const failure = wrapError(error, {
       code: STEP_CODES[step],

@@ -16982,12 +16982,18 @@ function extend() {
 "use strict";
 
 
+const { URL } = __nccwpck_require__(7016);
 const { ActionError } = __nccwpck_require__(438);
 
 const DEFAULT_LANG = "zh-CN";
 // ISO 639-1/3 opcionalmente seguido de guiones y región/variante: en, fr, zh-CN, es-419.
 const LANG_PATTERN = /^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/;
 const SOURCE_CANDIDATES = ["readme.md", "README.md", "Readme.md"];
+
+const DEFAULT_PROVIDER = "google";
+const SUPPORTED_PROVIDERS = ["google", "libretranslate"];
+const DEFAULT_LIBRETRANSLATE_URL = "http://localhost:5000";
+const DEFAULT_SOURCE_LANG = "auto";
 
 function resolveLanguage(input) {
   const lang = typeof input === "string" ? input.trim() : "";
@@ -17007,7 +17013,89 @@ function resolveLanguage(input) {
   return lang;
 }
 
-module.exports = { DEFAULT_LANG, LANG_PATTERN, SOURCE_CANDIDATES, resolveLanguage };
+function resolveProvider(input) {
+  const provider = typeof input === "string" ? input.trim().toLowerCase() : "";
+  if (!provider) {
+    return DEFAULT_PROVIDER;
+  }
+
+  if (!SUPPORTED_PROVIDERS.includes(provider)) {
+    throw new ActionError({
+      code: "INVALID_PROVIDER",
+      step: "config",
+      message: `Invalid PROVIDER "${input}". Supported providers: ${SUPPORTED_PROVIDERS.join(", ")}.`,
+      details: { received: input, supportedProviders: SUPPORTED_PROVIDERS },
+    });
+  }
+
+  return provider;
+}
+
+function resolveLibreTranslateUrl(input) {
+  const url = typeof input === "string" ? input.trim() : "";
+  if (!url) {
+    return DEFAULT_LIBRETRANSLATE_URL;
+  }
+
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      throw new Error("Invalid protocol");
+    }
+    return url.replace(/\/+$/, "");
+  } catch {
+    throw new ActionError({
+      code: "INVALID_CONFIG",
+      step: "config",
+      message: `Invalid LIBRETRANSLATE_URL "${input}". Must be a valid HTTP or HTTPS URL.`,
+      details: { received: input },
+    });
+  }
+}
+
+function resolveLibreTranslateApiKey(input) {
+  if (typeof input !== "string") {
+    return "";
+  }
+  return input.trim();
+}
+
+function resolveSourceLang(input) {
+  const source = typeof input === "string" ? input.trim() : "";
+  if (!source) {
+    return DEFAULT_SOURCE_LANG;
+  }
+
+  if (source.toLowerCase() === "auto") {
+    return "auto";
+  }
+
+  if (!LANG_PATTERN.test(source)) {
+    throw new ActionError({
+      code: "INVALID_LANGUAGE",
+      step: "config",
+      message: `Invalid SOURCE_LANG "${source}". Use "auto" or an ISO code such as "en" or "fr".`,
+      details: { received: input, expectedPattern: LANG_PATTERN.toString() },
+    });
+  }
+
+  return source;
+}
+
+module.exports = {
+  DEFAULT_LANG,
+  LANG_PATTERN,
+  SOURCE_CANDIDATES,
+  DEFAULT_PROVIDER,
+  SUPPORTED_PROVIDERS,
+  DEFAULT_LIBRETRANSLATE_URL,
+  DEFAULT_SOURCE_LANG,
+  resolveLanguage,
+  resolveProvider,
+  resolveLibreTranslateUrl,
+  resolveLibreTranslateApiKey,
+  resolveSourceLang,
+};
 
 
 /***/ }),
@@ -17169,6 +17257,128 @@ async function commitTranslation({ lang, outputPath, createGit, logger }) {
 }
 
 module.exports = { commitTranslation, isNothingToCommit, BOT_NAME, BOT_EMAIL };
+
+
+/***/ }),
+
+/***/ 6677:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+"use strict";
+
+
+const { ActionError } = __nccwpck_require__(438);
+
+/**
+ * Normaliza códigos de idioma para LibreTranslate / Argos Translate.
+ * Los modelos de Argos Translate generalmente usan códigos ISO 639-1 de 2 letras
+ * (por ejemplo "zh" en lugar de "zh-CN" o "zh-TW").
+ */
+function normalizeLibreTranslateLang(lang) {
+  if (typeof lang !== "string") {
+    return "";
+  }
+  const trimmed = lang.trim();
+  const lower = trimmed.toLowerCase();
+  if (lower.startsWith("zh-")) {
+    return "zh";
+  }
+  return trimmed;
+}
+
+/**
+ * Crea un cliente de traducción que realiza llamadas HTTP POST a la API de LibreTranslate.
+ */
+function createLibreTranslateClient({
+  url = "http://localhost:5000",
+  apiKey = "",
+  sourceLang = "auto",
+  fetchClient = globalThis.fetch,
+} = {}) {
+  const baseUrl = (url || "http://localhost:5000").replace(/\/+$/, "");
+
+  return async function translate(text, targetLang) {
+    if (typeof fetchClient !== "function") {
+      throw new ActionError({
+        code: "TRANSLATION_FAILED",
+        step: "translate",
+        message: "Global fetch is not available in this environment.",
+      });
+    }
+
+    const target = normalizeLibreTranslateLang(targetLang);
+    const endpoint = `${baseUrl}/translate`;
+    const payload = {
+      q: text,
+      source: sourceLang || "auto",
+      target,
+      format: "text",
+    };
+
+    if (apiKey) {
+      payload.api_key = apiKey;
+    }
+
+    let response;
+    try {
+      response = await fetchClient(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+    } catch (networkError) {
+      throw new ActionError({
+        code: "TRANSLATION_FAILED",
+        step: "translate",
+        message: `Network error connecting to LibreTranslate at ${baseUrl}: ${networkError.message}`,
+        cause: networkError,
+      });
+    }
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (parseError) {
+      throw new ActionError({
+        code: "TRANSLATION_FAILED",
+        step: "translate",
+        message: `Failed to parse LibreTranslate response as JSON: ${parseError.message}`,
+        details: { status: response.status },
+        cause: parseError,
+      });
+    }
+
+    if (!response.ok) {
+      const errorMsg =
+        (data && (data.error || data.message)) ||
+        `HTTP ${response.status} ${response.statusText || "error"}`;
+      throw new ActionError({
+        code: "TRANSLATION_FAILED",
+        step: "translate",
+        message: `LibreTranslate error: ${errorMsg}`,
+        details: { status: response.status, response: data },
+      });
+    }
+
+    if (!data || typeof data.translatedText !== "string") {
+      throw new ActionError({
+        code: "TRANSLATION_FAILED",
+        step: "translate",
+        message: "LibreTranslate response missing translatedText property",
+        details: { response: data },
+      });
+    }
+
+    return { text: data.translatedText };
+  };
+}
+
+module.exports = {
+  createLibreTranslateClient,
+  normalizeLibreTranslateLang,
+};
 
 
 /***/ }),
@@ -17347,7 +17557,14 @@ const { createGitClient } = __nccwpck_require__(2969);
 
 const { wrapError, formatError } = __nccwpck_require__(438);
 const { createLogger } = __nccwpck_require__(8033);
-const { resolveLanguage } = __nccwpck_require__(1283);
+const {
+  resolveLanguage,
+  resolveProvider,
+  resolveLibreTranslateUrl,
+  resolveLibreTranslateApiKey,
+  resolveSourceLang,
+} = __nccwpck_require__(1283);
+const { createLibreTranslateClient } = __nccwpck_require__(6677);
 const { resolveSource } = __nccwpck_require__(8895);
 const { toMarkdown } = __nccwpck_require__(8508);
 const { translateNodes } = __nccwpck_require__(9043);
@@ -17376,20 +17593,46 @@ function buildDependencies(overrides = {}, adapters = {}) {
     translate: translateAdapter = translateApi,
     git: gitAdapter = createGitClient,
     fs: fsAdapter = { readdirSync, readFileSync, writeFileSync },
+    fetch: fetchAdapter = globalThis.fetch,
   } = adapters;
+
+  const fetchClient = overrides.fetch || fetchAdapter;
+  const getInput = overrides.getInput || ((name) => coreAdapter.getInput(name));
+
+  const translate =
+    overrides.translate ||
+    ((text, lang) => {
+      const rawProvider = (getInput("PROVIDER") || "").trim().toLowerCase();
+      if (rawProvider === "libretranslate") {
+        const rawLibreUrl =
+          getInput("LIBRETRANSLATE_URL") || getInput("API_URL") || "http://localhost:5000";
+        const rawLibreApiKey =
+          getInput("LIBRETRANSLATE_API_KEY") || getInput("API_KEY") || "";
+        const rawSourceLang = getInput("SOURCE_LANG") || "auto";
+        const client = createLibreTranslateClient({
+          url: rawLibreUrl,
+          apiKey: resolveLibreTranslateApiKey(rawLibreApiKey),
+          sourceLang: rawSourceLang,
+          fetchClient,
+        });
+        return client(text, lang);
+      }
+      return translateAdapter(text, { to: lang });
+    });
 
   return {
     cwd: process.cwd(),
-    getInput: (name) => coreAdapter.getInput(name),
+    getInput,
     setFailed: (message) => coreAdapter.setFailed(message),
     readdir: (dir) => fsAdapter.readdirSync(dir),
     readFile: (path, encoding) => fsAdapter.readFileSync(path, encoding),
     writeFile: (path, data, encoding) => fsAdapter.writeFileSync(path, data, encoding),
-    translate: (text, lang) => translateAdapter(text, { to: lang }),
+    translate,
     createGit: () => gitAdapter(),
     sleep: defaultSleep,
     concurrency: 5,
     retries: 2,
+    fetch: fetchClient,
     ...overrides,
     logger: createLogger(overrides.logger || console),
   };
@@ -17403,7 +17646,21 @@ async function run(overrides = {}) {
   try {
     step = "config";
     const lang = resolveLanguage(deps.getInput("LANG"));
-    logger.step("config", "Language resolved", { lang });
+    const provider = resolveProvider(deps.getInput("PROVIDER"));
+    const sourceLang = resolveSourceLang(deps.getInput("SOURCE_LANG"));
+    let libreTranslateUrl;
+    if (provider === "libretranslate") {
+      libreTranslateUrl = resolveLibreTranslateUrl(
+        deps.getInput("LIBRETRANSLATE_URL") || deps.getInput("API_URL")
+      );
+    }
+
+    logger.step("config", "Configuration resolved", {
+      lang,
+      provider,
+      sourceLang,
+      ...(libreTranslateUrl ? { libreTranslateUrl } : {}),
+    });
 
     step = "read";
     const source = resolveSource(deps);
@@ -17439,7 +17696,7 @@ async function run(overrides = {}) {
     });
 
     logger.info("Done");
-    return { ok: true, lang, outputFile, outputPath, stats, git: gitResult };
+    return { ok: true, lang, provider, outputFile, outputPath, stats, git: gitResult };
   } catch (error) {
     const failure = wrapError(error, {
       code: STEP_CODES[step],

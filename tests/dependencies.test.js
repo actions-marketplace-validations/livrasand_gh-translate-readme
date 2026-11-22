@@ -35,6 +35,39 @@ describe("buildDependencies (cableado con librerías externas)", () => {
     assert.equal(result.text, "hola");
   });
 
+  it("cablea LibreTranslate cuando PROVIDER es libretranslate", async () => {
+    let capturedUrl;
+    let capturedBody;
+    const fakeFetch = async (url, options) => {
+      capturedUrl = url;
+      capturedBody = JSON.parse(options.body);
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({ translatedText: "Bonjour monde" }),
+      };
+    };
+
+    const deps = buildDependencies({
+      getInput: (name) => {
+        if (name === "PROVIDER") return "libretranslate";
+        if (name === "LIBRETRANSLATE_URL") return "http://localhost:5000";
+        if (name === "LIBRETRANSLATE_API_KEY") return "test-key";
+        if (name === "SOURCE_LANG") return "en";
+        return "";
+      },
+      fetch: fakeFetch,
+    });
+
+    const result = await deps.translate("Hello world", "fr");
+    assert.equal(capturedUrl, "http://localhost:5000/translate");
+    assert.equal(capturedBody.q, "Hello world");
+    assert.equal(capturedBody.source, "en");
+    assert.equal(capturedBody.target, "fr");
+    assert.equal(capturedBody.api_key, "test-key");
+    assert.equal(result.text, "Bonjour monde");
+  });
+
   it("crea el cliente de git a través de la factory", () => {
     let created = 0;
     const git = { status: async () => ({ files: [] }) };

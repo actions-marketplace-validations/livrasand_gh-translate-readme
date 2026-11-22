@@ -18,6 +18,7 @@ describe("run", () => {
 
     assert.equal(result.ok, true);
     assert.equal(result.lang, "fr");
+    assert.equal(result.provider, "google");
     assert.equal(result.outputFile, "README.fr.md");
     assert.equal(result.stats.total, 2);
     assert.deepEqual(failures, []);
@@ -25,10 +26,36 @@ describe("run", () => {
     assert.equal(written[join("/virtual/repo", "README.fr.md")].encoding, "utf8");
     assert.match(written[join("/virtual/repo", "README.fr.md")].content, /FR:Hello/);
     assert.ok(gitCalls.some(([name]) => name === "push"));
-    assert.ok(sink.lines.some((line) => line.includes("[translate-readme:config] Language resolved")));
+    assert.ok(sink.lines.some((line) => line.includes("[translate-readme:config] Configuration resolved")));
     assert.ok(sink.lines.some((line) => line.includes("[translate-readme:read] README parsed")));
     assert.ok(sink.lines.some((line) => line.includes("[translate-readme:write] Translated README written")));
     assert.ok(sink.lines.some((line) => line.includes("[translate-readme] Done")));
+  });
+
+  it("traduce usando proveedor libretranslate de extremo a extremo", async () => {
+    const { deps, written, gitCalls } = createDeps({
+      getInput: (name) => {
+        if (name === "PROVIDER") return "libretranslate";
+        if (name === "LANG") return "es";
+        if (name === "LIBRETRANSLATE_URL") return "http://localhost:5000";
+        return "";
+      },
+      statusFiles: [{ path: "/virtual/repo/README.es.md" }],
+      fetch: async () => ({
+        ok: true,
+        status: 200,
+        json: async () => ({ translatedText: "Texto traducido por LibreTranslate" }),
+      }),
+    });
+
+    const result = await run(deps);
+
+    assert.equal(result.ok, true);
+    assert.equal(result.lang, "es");
+    assert.equal(result.provider, "libretranslate");
+    assert.equal(result.outputFile, "README.es.md");
+    assert.match(written[join("/virtual/repo", "README.es.md")].content, /LibreTranslate/);
+    assert.ok(gitCalls.some(([name]) => name === "push"));
   });
 
   it("usa zh-CN y omite el commit cuando no hay cambios", async () => {
@@ -50,6 +77,43 @@ describe("run", () => {
     assert.match(failures[0], /^\[INVALID_LANGUAGE@config\]/);
     assert.deepEqual(written, {});
     assert.deepEqual(gitCalls, []);
+  });
+
+  it("reporta INVALID_PROVIDER si el proveedor no está soportado", async () => {
+    const { deps, failures } = createDeps({
+      getInput: (name) => (name === "PROVIDER" ? "bing" : ""),
+    });
+    const result = await run(deps);
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "INVALID_PROVIDER");
+    assert.equal(result.error.step, "config");
+    assert.match(failures[0], /^\[INVALID_PROVIDER@config\]/);
+  });
+
+  it("reporta INVALID_CONFIG si LIBRETRANSLATE_URL no es válida", async () => {
+    const { deps, failures } = createDeps({
+      getInput: (name) => {
+        if (name === "PROVIDER") return "libretranslate";
+        if (name === "LIBRETRANSLATE_URL") return "invalid-url";
+        return "";
+      },
+    });
+    const result = await run(deps);
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "INVALID_CONFIG");
+    assert.equal(result.error.step, "config");
+    assert.match(failures[0], /^\[INVALID_CONFIG@config\]/);
+  });
+
+  it("reporta INVALID_LANGUAGE si SOURCE_LANG es inválido", async () => {
+    const { deps, failures } = createDeps({
+      getInput: (name) => (name === "SOURCE_LANG" ? "invalid source!" : ""),
+    });
+    const result = await run(deps);
+    assert.equal(result.ok, false);
+    assert.equal(result.error.code, "INVALID_LANGUAGE");
+    assert.equal(result.error.step, "config");
+    assert.match(failures[0], /^\[INVALID_LANGUAGE@config\]/);
   });
 
   it("reporta README_NOT_FOUND con el directorio en el mensaje", async () => {

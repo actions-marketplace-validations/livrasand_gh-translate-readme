@@ -28,29 +28,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: 12.x
-      # ISO Langusge Codes: https://cloud.google.com/translate/docs/languages  
+          node-version: '20'
+      # ISO Language Codes: https://cloud.google.com/translate/docs/languages  
       - name: Adding README - Chinese Simplified
         uses: dephraiim/translate-readme@main
         with:
           LANG: zh-CN
-      - name: Adding README - Chinese Traditional
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: zh-TW
-      - name: Adding README - Hindi
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: hi
-      - name: Adding README - Arabic
-        uses: dephraiim/translate-readme@main
-        with:
-          LANG: ar
       - name: Adding README - French
         uses: dephraiim/translate-readme@main
         with:
@@ -63,12 +53,50 @@ jobs:
 
 You can configure the action further with the following options:
 
-- `LANG`: The language you want to translate your readme to. The default is Simplified Chinese. (I'm a Ghanaian) The supported languages can be found below.
-  (default: `zh-CH`) (required: `false`)
+- `LANG`: The language you want to translate your readme to (default: `zh-CN`).
+- `PROVIDER`: The translation provider to use: `google` (default) or `libretranslate`.
+- `LIBRETRANSLATE_URL`: The URL of your LibreTranslate API (default: `http://localhost:5000`).
+- `LIBRETRANSLATE_API_KEY`: API key if your LibreTranslate instance requires authentication (optional).
+- `SOURCE_LANG`: Source language code (default: `auto`).
+
+### Using LibreTranslate (Self-Hosted in GitHub Actions)
+
+To translate without third-party API limits or privacy concerns, you can run LibreTranslate as a Docker service container directly inside your GitHub Actions workflow:
+
+```yaml
+name: Translate README
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    services:
+      libretranslate:
+        image: libretranslate/libretranslate:latest
+        ports:
+          - 5000:5000
+        env:
+          LT_LOAD_ONLY: en,es,fr,zh,hi,ar
+    steps:
+      - uses: actions/checkout@v4
+      - name: Adding README - Spanish
+        uses: dephraiim/translate-readme@main
+        with:
+          LANG: es
+          PROVIDER: libretranslate
+          LIBRETRANSLATE_URL: http://localhost:5000
+```
 
 ## Supported Languages
 
-Languages supported can be found here https://cloud.google.com/translate/docs/languages
+- When using Google Translate (`PROVIDER: google`): https://cloud.google.com/translate/docs/languages
+- When using LibreTranslate (`PROVIDER: libretranslate`): Standard ISO 639-1 language codes (e.g. `es`, `fr`, `de`, `zh`, `hi`, `ar`, etc.) supported by your LibreTranslate instance.
 
 ### Issues
 

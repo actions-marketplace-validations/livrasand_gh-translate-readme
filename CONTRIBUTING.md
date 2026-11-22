@@ -30,7 +30,8 @@ is the most common way to ship a change that "works locally".
 - `index.js` — entrypoint; only calls `run()` when executed directly.
 - `src/runner.js` — orchestration and dependency wiring. Every external dependency is
   injectable, which is what makes the tests hermetic.
-- `src/config.js` — `LANG` validation.
+- `src/config.js` — `LANG`, `PROVIDER`, URL and config validation.
+- `src/libretranslate.js` — LibreTranslate HTTP client and language code normalization.
 - `src/readme.js` — README discovery, reading and parsing.
 - `src/markdown.js` — AST helpers; code/HTML/frontmatter are never translated.
 - `src/translator.js` — bounded-concurrency translation with retries.
@@ -54,7 +55,9 @@ The failing message follows `[CODE@step]`:
 
 | Code | Step | Meaning |
 | --- | --- | --- |
-| `INVALID_LANGUAGE` | `config` | `LANG` is empty, malformed or could escape the output filename. |
+| `INVALID_LANGUAGE` | `config` | `LANG` or `SOURCE_LANG` is empty, malformed or could escape the output filename. |
+| `INVALID_PROVIDER` | `config` | `PROVIDER` is not supported (supported: `google`, `libretranslate`). |
+| `INVALID_CONFIG` | `config` | Configuration parameter (e.g. `LIBRETRANSLATE_URL`) is malformed or invalid. |
 | `DIRECTORY_READ_FAILED` | `read` | The working directory cannot be listed. |
 | `README_NOT_FOUND` | `read` | No `readme.md`, `README.md` or `Readme.md` in the workspace. |
 | `README_READ_FAILED` | `read` | The README exists but cannot be read. |

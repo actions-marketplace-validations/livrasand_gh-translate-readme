@@ -52,16 +52,33 @@ function createDeps(overrides = {}) {
   const written = {};
   const failures = [];
 
+  const overrideGetInput = overrides.getInput;
+  const getInput = (name) => {
+    if (typeof overrideGetInput === "function") {
+      if (overrideGetInput.length === 0) {
+        return name === "LANG" ? overrideGetInput() : "";
+      }
+      return overrideGetInput(name);
+    }
+    return "";
+  };
+
+  const defaultTranslate = async (text) => ({ text: `[${text}]` });
+  const translate =
+    overrides.translate !== undefined
+      ? overrides.translate
+      : (overrides.fetch ? undefined : defaultTranslate);
+
   const deps = {
     cwd: "/virtual/repo",
-    getInput: () => "",
+    getInput,
     setFailed: (message) => failures.push(message),
     readdir: () => ["README.md"],
     readFile: () => DEFAULT_README,
     writeFile: (path, content, encoding) => {
       written[path] = { content, encoding };
     },
-    translate: async (text) => ({ text: `[${text}]` }),
+    ...(translate !== undefined ? { translate } : {}),
     createGit: () => git,
     sleep: async () => {},
     logger: sink,
@@ -69,6 +86,11 @@ function createDeps(overrides = {}) {
     retries: 1,
     ...overrides,
   };
+
+  if (overrides.translate === undefined && overrides.fetch) {
+    delete deps.translate;
+  }
+  deps.getInput = getInput;
 
   return { deps, sink, written, failures, gitCalls: calls };
 }
