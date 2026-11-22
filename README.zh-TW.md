@@ -1,3 +1,5 @@
+![Translated to zh-TW](https://custom-icon-badges.demolab.com/badge/zh-TW-100%25-white.svg?logo=translate)
+
 # 翻譯自述文件操作
 
 ## 自述文件翻譯
@@ -107,7 +109,7 @@ jobs:
 ### 發展
 
 隨時歡迎提出建議和貢獻！看[貢獻.md](./CONTRIBUTING.md)有關測試命令、錯誤代碼和調試提示。跑步`npm ci && npm run verify`之前
-打開拉取請求。
+打开拉取请求。
 
 ### 執照
 
