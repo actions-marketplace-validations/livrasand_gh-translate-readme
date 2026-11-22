@@ -158,10 +158,10 @@ async function run(overrides = {}) {
       const marker = "<!-- translate-readme:badges -->";
       if (typeof mainReadme === "string" && mainReadme.includes(marker)) {
         const files = deps.readdir(deps.cwd).filter((name) =>
-          /^README\\.[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*\\.md$/.test(name),
+          /^README\.[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*\.md$/.test(name),
         );
         const langs = files
-          .map((name) => name.match(/^README\\.(.+)\\.md$/)[1])
+          .map((name) => name.match(/^README\.(.+)\.md$/)[1])
           .sort();
         const badges = langs
           .map((code) => {
@@ -178,7 +178,7 @@ async function run(overrides = {}) {
             )}&labelColor=white&color=white)](README.${code}.md)`;
           })
           .join(" ");
-        const lines = mainReadme.split("\\n");
+        const lines = mainReadme.split("\n");
         const filtered = [];
         let inserted = false;
         for (const line of lines) {
@@ -198,7 +198,7 @@ async function run(overrides = {}) {
         if (!inserted) {
           filtered.unshift(marker, badges);
         }
-        mainReadme = filtered.join("\\n").replace(/\\n{3,}/g, "\\n\\n");
+        mainReadme = filtered.join("\n").replace(/\n{3,}/g, "\n\n");
         deps.writeFile(mainReadmePath, mainReadme, "utf8");
       }
     } catch (_error) {

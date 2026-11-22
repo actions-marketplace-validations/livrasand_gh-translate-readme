@@ -13,6 +13,9 @@ on:
 jobs:
   sync-icon:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - name: Check if icon already exists on custom-icon-badges
@@ -32,8 +35,13 @@ jobs:
         run: |
           mkdir -p icons
           curl -L "${{ github.event.inputs.icon_url }}" -o "icons/ghtr-${{ github.event.inputs.language }}.svg"
-      - name: Upload icon to custom-icon-badges (manual step)
+      - name: Create pull request with the new icon
         if: steps.check.outputs.skip == 'false'
-        run: |
-          echo "Downloaded icon saved to icons/ghtr-${{ github.event.inputs.language }}.svg"
-          echo "Please open a PR to https://github.com/demolab/custom-icon-badges adding this SVG under the ghtr- prefix."
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: "icon/ghtr-${{ github.event.inputs.language }}"
+          title: "Add ghtr-${{ github.event.inputs.language }} icon"
+          body: |
+            Adds the `ghtr-${{ github.event.inputs.language }}` icon downloaded from Flaticon.
+            Please submit this SVG to https://github.com/demolab/custom-icon-badges under the `ghtr-` prefix.
+          commit-message: "Add ghtr-${{ github.event.inputs.language }} icon"
