@@ -1,6 +1,8 @@
-![Translated to fr](https://custom-icon-badges.demolab.com/badge/fr-100%25-white.svg?logo=ghtr-fr)
+![Translated to fr](https://custom-icon-badges.demolab.com/badge/fr-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)
 
-<!-- translate-readme:badges -->\n\n
+<!-- translate-readme:badges -->\n\n\n\n\n<!-- translate-readme:badges -->
+
+# Traduire l’action Lisez-moi
 
 ## Traduction du fichier README
 
