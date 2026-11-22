@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://flagcdn.com/24x18/tw.png)](README.ar.md) [![French](https://flagcdn.com/24x18/tw.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/tw.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/tw.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/tw.png)](README.zh-TW.md)
+[![Arabic](https://flagcdn.com/24x18/sa.png)](README.ar.md) [![French](https://flagcdn.com/24x18/fr.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/in.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/cn.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/tw.png)](README.zh-TW.md)
 
 # रीडमी एक्शन का अनुवाद करें
 
