@@ -34,7 +34,8 @@ describe("commitTranslation", () => {
       ["addConfig", "user.name", BOT_NAME],
       ["addConfig", "user.email", BOT_EMAIL],
       ["add", "README.fr.md"],
-      ["commit", "docs: Added README.fr.md translation via https://github.com/dephraiim/translate-readme"],
+      ["add", "README.md"],
+      ["commit", "docs: Added README.fr.md translation via https://github.com/livrasand/gh-translate-readme"],
       ["push"],
     ]);
     assert.ok(sink.lines.some((line) => line.includes("[translate-readme:commit] Translation pushed")));

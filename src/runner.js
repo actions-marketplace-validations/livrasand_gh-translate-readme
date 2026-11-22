@@ -198,7 +198,7 @@ async function run(overrides = {}) {
         if (!inserted) {
           filtered.unshift(marker, badges);
         }
-        mainReadme = filtered.join("\\n");
+        mainReadme = filtered.join("\\n").replace(/\\n{3,}/g, "\\n\\n");
         deps.writeFile(mainReadmePath, mainReadme, "utf8");
       }
     } catch (_error) {

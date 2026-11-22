@@ -17214,14 +17214,17 @@ function isNothingToCommit(error) {
 /** Hace commit y push sólo del README traducido; nunca de cambios ajenos al action. */
 async function commitTranslation({ lang, outputPath, createGit, logger }) {
   const outputFile = basename(outputPath);
-  const message = `docs: Added README.${lang}.md translation via https://github.com/dephraiim/translate-readme`;
+  const message = `docs: Added README.${lang}.md translation via https://github.com/livrasand/gh-translate-readme`;
 
   try {
     const git = createGit();
     const status = await git.status();
     const files = Array.isArray(status.files) ? status.files : [];
     const changed = files.some(
-      (file) => file.path === outputPath || basename(file.path) === outputFile,
+      (file) =>
+        file.path === outputPath ||
+        basename(file.path) === outputFile ||
+        basename(file.path) === "README.md",
     );
 
     if (!changed) {
@@ -17234,6 +17237,7 @@ async function commitTranslation({ lang, outputPath, createGit, logger }) {
     await git.addConfig("user.name", BOT_NAME);
     await git.addConfig("user.email", BOT_EMAIL);
     await git.add(outputFile);
+    await git.add("README.md");
     await git.commit(message);
     logger.step("commit", "Translation committed", { outputFile });
     await git.push();
@@ -17752,7 +17756,7 @@ async function run(overrides = {}) {
         if (!inserted) {
           filtered.unshift(marker, badges);
         }
-        mainReadme = filtered.join("\\n");
+        mainReadme = filtered.join("\\n").replace(/\\n{3,}/g, "\\n\\n");
         deps.writeFile(mainReadmePath, mainReadme, "utf8");
       }
     } catch (_error) {
