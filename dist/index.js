@@ -17695,7 +17695,12 @@ async function run(overrides = {}) {
     step = "write";
     const outputFile = `README.${lang}.md`;
     const outputPath = join(deps.cwd, outputFile);
-    deps.writeFile(outputPath, toMarkdown(source.ast), "utf8");
+    const translatedPercent =
+      stats.total > 0 ? Math.round((stats.succeeded / stats.total) * 100) : 100;
+    const badge = `![Translated to ${lang}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
+      lang,
+    )}-${translatedPercent}%25-white.svg?logo=translate)\n\n`;
+    deps.writeFile(outputPath, badge + toMarkdown(source.ast), "utf8");
     logger.step("write", "Translated README written", { outputFile });
 
     step = "commit";
