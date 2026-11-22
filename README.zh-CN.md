@@ -1,6 +1,6 @@
-![Translated to 简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)
-
 <!-- translate-readme:badges -->
+
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
 # 翻译自述文件操作
 
@@ -64,6 +64,7 @@ jobs:
 -   `LIBRETRANSLATE_URL`：LibreTranslate API 的 URL（默认值：`http://localhost:5000`）。
 -   `LIBRETRANSLATE_API_KEY`：API 密钥（如果您的 LibreTranslate 实例需要身份验证）（可选）。
 -   `SOURCE_LANG`：源语言代码（默认：`auto`）。
+-   `IGNORE`：要跳过的以逗号分隔的语言代码（例如`fr,es`）。当语言已手动翻译时使用此选项，这样操作就不会覆盖它。
 
 ### 使用 LibreTranslate（在 GitHub Actions 中自托管）
 
@@ -103,6 +104,10 @@ jobs:
 
 -   使用谷歌翻译时（`PROVIDER: google`）：<https://cloud.google.com/translate/docs/languages>
 -   使用 LibreTranslate 时（`PROVIDER: libretranslate`)：标准 ISO 639-1 语言代码（例如`es`,`fr`,`de`,`zh`,`hi`,`ar`等）由您的 LibreTranslate 实例支持。
+
+### 忽略手动翻译的语言
+
+如果您手动翻译 README，请将其语言代码添加到`IGNORE`（例如`IGNORE: fr,es`) 在该语言的工作流程步骤中，或完全禁用该步骤，以便该操作不会覆盖您的工作。这`IGNORE`检查在任何翻译或文件写入之前运行。
 
 ### 问题
 
