@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://flagcdn.com/24x18/sa.png)](README.ar.md) [![French](https://flagcdn.com/24x18/sa.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/sa.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/sa.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/sa.png)](README.zh-TW.md)
+[![Arabic](https://flagcdn.com/24x18/sa.png)](README.ar.md) [![French](https://flagcdn.com/24x18/fr.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/in.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/cn.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/tw.png)](README.zh-TW.md)
 
 # Traduire l’action Lisez-moi
 
@@ -107,7 +107,7 @@ jobs:
 
 ### Ignorer les langues traduites manuellement
 
-Si vous traduisez un README manuellement, ajoutez son code de langue à`IGNORE`(Par exemple`IGNORE: fr,es`) dans l'étape du flux de travail pour cette langue, ou désactivez entièrement l'étape afin que l'action n'écrase pas votre travail. Le`IGNORE`la vérification s'exécute avant toute traduction ou écriture de fichier.
+Si vous traduisez un README manuellement, ajoutez son code de langue à`IGNORE`(Par exemple`IGNORE: fr,es`) dans l'étape du flux de travail pour cette langue, ou désactivez complètement l'étape afin que l'action n'écrase pas votre travail. Le`IGNORE`la vérification s'exécute avant toute traduction ou écriture de fichier.
 
 ### Problèmes
 
