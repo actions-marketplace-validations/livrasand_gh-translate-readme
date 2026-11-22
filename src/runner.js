@@ -180,14 +180,17 @@ async function run(overrides = {}) {
               ru: "ru",
               it: "it",
             };
-            const cc = countryCodes[code] || code;
             let name = code;
             try {
               name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
             } catch {
               name = code;
             }
-            return `[![${name}](https://flagcdn.com/24x18/${cc}.png)](README.${code}.md)`;
+            return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
+              name,
+            )}-100%25-white.svg?logo=ghtr-${encodeURIComponent(
+              code,
+            )}&labelColor=white&color=white)](README.${code}.md)`;
           })
           .join(" ");
         const lines = mainReadme.split("\n");
