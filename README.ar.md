@@ -1,6 +1,8 @@
 ![Translated to عربى](https://custom-icon-badges.demolab.com/badge/%D8%B9%D8%B1%D8%A8%D9%89-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)
 
-<!-- translate-readme:badges -->\n\n\n\n<!-- translate-readme:badges -->
+<!-- translate-readme:badges -->
+
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
 # ترجمة الإجراء التمهيدي
 
