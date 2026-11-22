@@ -17697,8 +17697,9 @@ async function run(overrides = {}) {
     const outputPath = join(deps.cwd, outputFile);
     const translatedPercent =
       stats.total > 0 ? Math.round((stats.succeeded / stats.total) * 100) : 100;
-    const badge = `![Translated to ${lang}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
-      lang,
+    const displayName = (deps.getInput("LANG_NAME") || "").trim() || lang;
+    const badge = `![Translated to ${displayName}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
+      displayName,
     )}-${translatedPercent}%25-white.svg?logo=ghtr-${encodeURIComponent(
       lang,
     )}&labelColor=white&color=white)\n\n`;
@@ -17716,18 +17717,14 @@ async function run(overrides = {}) {
         const langs = files
           .map((name) => name.match(/^README\\.(.+)\\.md$/)[1])
           .sort();
-        const displayNames = {
-          en: "English",
-          "zh-CN": "简体中文",
-          "zh-TW": "繁体中文",
-          hi: "हिंदी",
-          fr: "Française",
-          ar: "عربى",
-          es: "Español",
-        };
         const badges = langs
           .map((code) => {
-            const name = displayNames[code] || code;
+            let name = code;
+            try {
+              name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
+            } catch {
+              name = code;
+            }
             return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
               name,
             )}-white.svg?logo=ghtr-${encodeURIComponent(
@@ -17736,22 +17733,30 @@ async function run(overrides = {}) {
           })
           .join(" ");
         const lines = mainReadme.split("\\n");
-        const markerIndex = lines.findIndex((line) => line.trim() === marker);
-        if (markerIndex !== -1) {
-          // Remove previously generated badge lines right after the marker.
-          let end = markerIndex + 1;
-          while (end < lines.length && /^\[!\[/.test(lines[end].trim())) {
-            end++;
+        const filtered = [];
+        let inserted = false;
+        for (const line of lines) {
+          if (line.trim() === marker) {
+            if (!inserted) {
+              filtered.push(marker);
+              filtered.push(badges);
+              inserted = true;
+            }
+            continue;
           }
-          lines.splice(markerIndex + 1, end - markerIndex - 1, badges);
-          mainReadme = lines.join("\\n");
-        } else {
-          mainReadme = `${marker}\\n${badges}\\n${mainReadme}`;
+          if (/^\[!\[/.test(line.trim())) {
+            continue;
+          }
+          filtered.push(line);
         }
+        if (!inserted) {
+          filtered.unshift(marker, badges);
+        }
+        mainReadme = filtered.join("\\n");
         deps.writeFile(mainReadmePath, mainReadme, "utf8");
       }
-    } catch (error) {
-      logger.step("write", "Could not update main README badges", { error: error.message });
+    } catch (_error) {
+      logger.step("write", "Could not update main README badges", { error: _error.message });
     }
     logger.step("write", "Translated README written", { outputFile });
 

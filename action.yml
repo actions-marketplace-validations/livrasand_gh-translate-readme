@@ -23,6 +23,10 @@ inputs:
     description: 'Source language code (default: auto)'
     required: false
     default: 'auto'
+  LANG_NAME:
+    description: 'Display name for the target language used in badges (optional)'
+    required: false
+    default: ''
 
 runs:
   using: 'node20'

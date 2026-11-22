@@ -25,19 +25,24 @@ jobs:
         uses: ./
         with:
           LANG: zh-CN
+          LANG_NAME: 简体中文
       - name: Adding README - Chinese Traditional
         uses: ./
         with:
           LANG: zh-TW
+          LANG_NAME: 繁体中文
       - name: Adding README - Hindi
         uses: ./
         with:
           LANG: hi
+          LANG_NAME: हिंदी
       - name: Adding README - Arabic
         uses: ./
         with:
           LANG: ar
+          LANG_NAME: عربى
       - name: Adding README - French
         uses: ./
         with:
           LANG: fr
+          LANG_NAME: Française
