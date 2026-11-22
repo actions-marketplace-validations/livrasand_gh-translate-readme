@@ -1,0 +1,39 @@
+name: Sync language icons
+
+on:
+  workflow_dispatch:
+    inputs:
+      language:
+        description: 'Language code (e.g. es, fr, zh-CN)'
+        required: true
+      icon_url:
+        description: 'Flaticon icon URL to download'
+        required: true
+
+jobs:
+  sync-icon:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check if icon already exists on custom-icon-badges
+        id: check
+        run: |
+          code="${{ github.event.inputs.language }}"
+          status=$(curl -s -o /dev/null -w "%{http_code}" "https://custom-icon-badges.demolab.com/badge/${code}-white.svg?logo=ghtr-${code}")
+          echo "status=$status" >> $GITHUB_OUTPUT
+          if [ "$status" = "200" ]; then
+            echo "Icon already available; skipping download."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Download icon from Flaticon
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          mkdir -p icons
+          curl -L "${{ github.event.inputs.icon_url }}" -o "icons/ghtr-${{ github.event.inputs.language }}.svg"
+      - name: Upload icon to custom-icon-badges (manual step)
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          echo "Downloaded icon saved to icons/ghtr-${{ github.event.inputs.language }}.svg"
+          echo "Please open a PR to https://github.com/demolab/custom-icon-badges adding this SVG under the ghtr- prefix."

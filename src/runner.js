@@ -145,7 +145,9 @@ async function run(overrides = {}) {
       stats.total > 0 ? Math.round((stats.succeeded / stats.total) * 100) : 100;
     const badge = `![Translated to ${lang}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
       lang,
-    )}-${translatedPercent}%25-white.svg?logo=ghtr-${encodeURIComponent(lang)})\n\n`;
+    )}-${translatedPercent}%25-white.svg?logo=ghtr-${encodeURIComponent(
+      lang,
+    )}&labelColor=white&color=white)\n\n`;
     deps.writeFile(outputPath, badge + toMarkdown(source.ast), "utf8");
 
     // Optionally keep the main README's translation badge list up to date.
@@ -160,16 +162,38 @@ async function run(overrides = {}) {
         const langs = files
           .map((name) => name.match(/^README\\.(.+)\\.md$/)[1])
           .sort();
+        const displayNames = {
+          en: "English",
+          "zh-CN": "简体中文",
+          "zh-TW": "繁体中文",
+          hi: "हिंदी",
+          fr: "Française",
+          ar: "عربى",
+          es: "Español",
+        };
         const badges = langs
-          .map(
-            (code) =>
-              `[![${code}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
-                code,
-              )}-white.svg?logo=ghtr-${encodeURIComponent(code)})](README.${code}.md)`,
-          )
+          .map((code) => {
+            const name = displayNames[code] || code;
+            return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
+              name,
+            )}-white.svg?logo=ghtr-${encodeURIComponent(
+              code,
+            )}&labelColor=white&color=white)](README.${code}.md)`;
+          })
           .join(" ");
-        const replacement = `${marker}\\n${badges}\\n`;
-        mainReadme = mainReadme.replace(new RegExp(`${marker}[^]*?(?=\\n## |$)`), replacement);
+        const lines = mainReadme.split("\\n");
+        const markerIndex = lines.findIndex((line) => line.trim() === marker);
+        if (markerIndex !== -1) {
+          // Remove previously generated badge lines right after the marker.
+          let end = markerIndex + 1;
+          while (end < lines.length && /^\[!\[/.test(lines[end].trim())) {
+            end++;
+          }
+          lines.splice(markerIndex + 1, end - markerIndex - 1, badges);
+          mainReadme = lines.join("\\n");
+        } else {
+          mainReadme = `${marker}\\n${badges}\\n${mainReadme}`;
+        }
         deps.writeFile(mainReadmePath, mainReadme, "utf8");
       }
     } catch (error) {
