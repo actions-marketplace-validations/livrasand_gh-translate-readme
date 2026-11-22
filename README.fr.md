@@ -1,4 +1,4 @@
-![Translated to fr](https://custom-icon-badges.demolab.com/badge/fr-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)
+![Translated to Française](https://custom-icon-badges.demolab.com/badge/Fran%C3%A7aise-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)
 
 <!-- translate-readme:badges -->\n\n\n\n\n<!-- translate-readme:badges -->
 
