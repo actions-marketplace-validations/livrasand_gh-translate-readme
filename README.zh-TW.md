@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![Française](https://custom-icon-badges.demolab.com/badge/Fran%C3%A7aise-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87--white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)--white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
 
 # GitHub 翻譯自述文件操作
 
@@ -82,6 +82,7 @@ jobs:
 -   `IGNORE`：要跳過的以逗號分隔的語言代碼（例如`fr,es`）。當語言已手動翻譯時使用此選項，這樣操作就不會覆寫它。
 -   `FLAG`：用於語言徽章的國家/國旗代碼（例如`cn`,`fr`）。選修的;省略時預設為內建映射。
 -   `LANG_NAME`：徽章中使用的目標語言的顯示名稱（可選）。
+-   `SHOW_PERCENTAGE`：以語言徽章顯示翻譯百分比（`true`/`false`, 預設:`true`）。設定為`false`隱藏它。
 
 ### 使用 LibreTranslate（在 GitHub Actions 中自架）
 
