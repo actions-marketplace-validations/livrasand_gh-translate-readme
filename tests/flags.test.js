@@ -9,6 +9,7 @@ const {
   buildBadgeSlug,
   buildBadgeUrl,
   buildBadgeMarkdown,
+  normalizeSvg,
   createFlagBadgeClient,
 } = require("../src/flags");
 const { ActionError } = require("../src/errors");
@@ -98,6 +99,25 @@ describe("buildBadgeSlug y URLs", () => {
       md,
       "[![Spanish](https://custom-icon-badges.demolab.com/badge/Spanish-100%25-white.svg?logo=ghtr-es&labelColor=white&color=white)](README.es.md)"
     );
+  });
+});
+
+describe("normalizeSvg", () => {
+  it("inyecta viewBox cuando falta y existen width y height", () => {
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><rect/></svg>';
+    const normalized = normalizeSvg(svg);
+    assert.match(normalized, /viewBox="0 0 900 600"/);
+  });
+
+  it("conserva el viewBox existente", () => {
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 120 80"><rect/></svg>';
+    const normalized = normalizeSvg(svg);
+    assert.equal(normalized, svg);
+  });
+
+  it("devuelve inputs no string intactos", () => {
+    assert.equal(normalizeSvg(null), null);
+    assert.equal(normalizeSvg(""), "");
   });
 });
 
@@ -223,6 +243,48 @@ describe("createFlagBadgeClient", () => {
 
     const result = await client("es");
     assert.equal(result.uploaded, true);
+  });
+
+  it("recurre a PNG cuando el SVG supera 3500 bytes para evitar error 431", async () => {
+    const requests = [];
+    const largeSvg = "<svg width='900' height='600'>" + "x".repeat(4000) + "</svg>";
+    const pngContent = Buffer.from("fake-png-bytes");
+
+    const client = createFlagBadgeClient({
+      fetchClient: async (url, options) => {
+        requests.push({ url, options });
+        if (url.endsWith(".svg")) {
+          return {
+            ok: true,
+            status: 200,
+            text: async () => largeSvg,
+          };
+        }
+        if (url.endsWith(".png")) {
+          return {
+            ok: true,
+            status: 200,
+            arrayBuffer: async () => pngContent,
+          };
+        }
+        if (url.includes("custom-icon-badges")) {
+          return {
+            status: 200,
+            json: async () => ({ type: "success", message: "Icon added" }),
+          };
+        }
+        return { status: 404 };
+      },
+    });
+
+    const result = await client("ar", { flag: "sa" });
+    assert.equal(result.uploaded, true);
+    assert.equal(result.type, "png");
+
+    const uploadCall = requests.find((r) => r.url.includes("custom-icon-badges"));
+    const body = JSON.parse(uploadCall.options.body);
+    assert.equal(body.type, "png");
+    assert.equal(body.data, pngContent.toString("base64"));
   });
 
   it("trata 409 (slug ya existe) como éxito utilizable", async () => {

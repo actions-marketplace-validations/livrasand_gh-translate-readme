@@ -16,7 +16,7 @@ const {
   resolveSourceLang,
 } = require("./config");
 const { createLibreTranslateClient } = require("./libretranslate");
-const { createFlagBadgeClient } = require("./flags");
+const { createFlagBadgeClient, resolveShowPercentage } = require("./flags");
 const { resolveSource } = require("./readme");
 const { toMarkdown } = require("./markdown");
 const { translateNodes } = require("./translator");
@@ -104,6 +104,96 @@ function buildDependencies(overrides = {}, adapters = {}) {
   };
 }
 
+function resolveShowPercentageInput(getInput) {
+  const candidateNames = [
+    "SHOW_PERCENTAGE",
+    "SHOW_TRANSLATED_PERCENTAGE",
+    "SHOW_TRANSLATED_PERCENT",
+    "BADGE_SHOW_PERCENTAGE",
+    "BADGE_PERCENTAGE",
+    "PERCENTAGE",
+    "SHOW_PERCENT",
+    "BADGE_SHOW_PERCENT",
+  ];
+  for (const name of candidateNames) {
+    let raw = "";
+    try {
+      raw = (getInput(name) || "").trim();
+    } catch {
+      raw = "";
+    }
+    if (raw !== "") {
+      return resolveShowPercentage(raw, true);
+    }
+  }
+  return true;
+}
+
+function resolveIconInput(getInput) {
+  const iconNames = [
+    "SHOW_ICON",
+    "ICON",
+    "BADGE_ICON",
+    "USE_ICON",
+    "SHOW_BADGE_ICON",
+    "DISPLAY_ICON",
+    "BADGE_ICON_MODE",
+  ];
+  for (const name of iconNames) {
+    let raw = "";
+    try {
+      raw = (getInput(name) || "").trim();
+    } catch {
+      raw = "";
+    }
+    if (raw !== "") {
+      const normalized = raw.toLowerCase();
+      if (["true", "1", "yes", "on", "show", "shown", "icon"].includes(normalized)) {
+        return true;
+      }
+      if (["false", "0", "no", "off", "hide", "hidden", "none", "percentage", "percent"].includes(normalized)) {
+        return false;
+      }
+    }
+  }
+  return false;
+}
+
+function resolveBadgeDisplayMode(getInput) {
+  const modeNames = [
+    "BADGE_MODE",
+    "BADGE_STYLE",
+    "BADGE_TYPE",
+    "BADGE_DISPLAY",
+    "DISPLAY_MODE",
+    "DISPLAY",
+    "MODE",
+    "STYLE",
+    "TYPE",
+  ];
+  for (const name of modeNames) {
+    let raw = "";
+    try {
+      raw = (getInput(name) || "").trim();
+    } catch {
+      raw = "";
+    }
+    if (raw !== "") {
+      const normalized = raw.toLowerCase();
+      if (normalized.includes("icon")) {
+        return "icon";
+      }
+      if (normalized.includes("percent")) {
+        return "percentage";
+      }
+    }
+  }
+  if (resolveIconInput(getInput)) {
+    return "icon";
+  }
+  return "percentage";
+}
+
 async function run(overrides = {}) {
   const deps = buildDependencies(overrides);
   const { logger } = deps;
@@ -122,6 +212,8 @@ async function run(overrides = {}) {
     }
     const provider = resolveProvider(deps.getInput("PROVIDER"));
     const sourceLang = resolveSourceLang(deps.getInput("SOURCE_LANG"));
+    const iconMode = resolveBadgeDisplayMode(deps.getInput) === "icon";
+    const showPercentage = iconMode ? false : resolveShowPercentageInput(deps.getInput);
     let libreTranslateUrl;
     if (provider === "libretranslate") {
       libreTranslateUrl = resolveLibreTranslateUrl(
@@ -172,13 +264,27 @@ async function run(overrides = {}) {
         const langs = files
           .map((name) => name.match(/^README\.(.+)\.md$/)[1])
           .sort();
+        const percentageSegment = showPercentage ? "100%25" : "";
+
+        // Extraer badges existentes para preservar sus nombres personalizados (LANG_NAME) y URLs
+        const existingBadgesMap = new Map();
+        const badgeRegex = /\[!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)/g;
+        let match;
+        while ((match = badgeRegex.exec(mainReadme)) !== null) {
+          const target = match[3];
+          const targetCodeMatch = target.match(/README\.([A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*)\.md$/i);
+          if (targetCodeMatch) {
+            const targetCode = targetCodeMatch[1];
+            existingBadgesMap.set(targetCode, match[0]);
+          }
+        }
+
         const badgePromises = langs.map(async (code) => {
-          // Only the language being translated in this run uploads its flag.
-          // Re-uploading every language on every run exhausts the custom-icon-badges
-          // rate limit (10 POSTs / 5 min) and makes most flags disappear, leaving
-          // only the first ones (e.g. Chinese) visible. Other languages already
-          // uploaded their flag when they ran as the current language, so we just
-          // reference the existing slug here.
+          // Si ya existe en README.md y no es el idioma actual, preservar su badge intacto
+          if (code !== lang && existingBadgesMap.has(code)) {
+            return existingBadgesMap.get(code);
+          }
+
           if (code !== lang) {
             let name = code;
             try {
@@ -191,32 +297,52 @@ async function run(overrides = {}) {
               .replace(/[^a-z0-9_-]/g, "-")}`;
             return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
               name,
-            )}-100%25-white.svg?logo=${encodeURIComponent(
+            )}-${percentageSegment}-white.svg?logo=${encodeURIComponent(
               slug,
             )}&labelColor=white&color=white)](README.${code}.md)`;
           }
 
+          const explicitFlag = (deps.getInput("FLAG") || "").trim();
+          const explicitName = (deps.getInput("LANG_NAME") || "").trim();
+
           try {
-            const explicitFlag = (deps.getInput("FLAG") || "").trim();
-            const explicitName = (deps.getInput("LANG_NAME") || "").trim();
             const badge = await deps.flagBadgeClient(code, {
               flag: explicitFlag,
               langName: explicitName,
+              showPercentage,
+              showPercent: showPercentage,
+              showTranslatedPercentage: showPercentage,
+              percentage: showPercentage,
+              showIcon: iconMode,
+              showIcons: iconMode,
+              icon: iconMode,
+              useIcon: iconMode,
+              badgeIcon: iconMode,
+              iconBadge: iconMode,
+              displayIcon: iconMode,
+              badgeMode: iconMode ? "icon" : "percentage",
+              badgeStyle: iconMode ? "icon" : "percentage",
+              badgeType: iconMode ? "icon" : "percentage",
+              mode: iconMode ? "icon" : "percentage",
+              style: iconMode ? "icon" : "percentage",
+              type: iconMode ? "icon" : "percentage",
             });
             return badge.markdown;
           } catch {
-            let name = code;
-            try {
-              name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
-            } catch {
-              name = code;
+            let name = explicitName || code;
+            if (!explicitName) {
+              try {
+                name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
+              } catch {
+                name = code;
+              }
             }
             const fallbackSlug = `ghtr-${String(code)
               .toLowerCase()
               .replace(/[^a-z0-9_-]/g, "-")}`;
             return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
               name,
-            )}-100%25-white.svg?logo=${encodeURIComponent(
+            )}-${percentageSegment}-white.svg?logo=${encodeURIComponent(
               fallbackSlug,
             )}&labelColor=white&color=white)](README.${code}.md)`;
           }

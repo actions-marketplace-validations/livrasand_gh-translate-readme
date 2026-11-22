@@ -207,6 +207,35 @@ describe("run", () => {
     assert.match(updatedReadme.content, /\[!\[Spanish\]/);
   });
 
+  it("preserva badges y nombres personalizados existentes en README.md al traducir otro idioma", async () => {
+    const existingBadgesLine =
+      "[![简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-cn)](README.zh-CN.md)";
+    const readmeContent = `# Repo\n\n<!-- translate-readme:badges -->\n${existingBadgesLine}\n\nContenido original.`;
+
+    const { deps, written } = createDeps({
+      getInput: (name) => {
+        if (name === "LANG") return "fr";
+        if (name === "FLAG") return "fr";
+        if (name === "LANG_NAME") return "Française";
+        return "";
+      },
+      readFile: () => readmeContent,
+      readdir: () => ["README.md", "README.zh-CN.md", "README.fr.md"],
+      flagBadgeClient: async (code, opts) => ({
+        code,
+        markdown: `[![${opts.langName || code}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(opts.langName || code)}-100%25-white.svg?logo=ghtr-${code})](README.${code}.md)`,
+      }),
+    });
+
+    const result = await run(deps);
+    assert.equal(result.ok, true);
+    const updatedReadme = written[join("/virtual/repo", "README.md")];
+    assert.ok(updatedReadme);
+    assert.match(updatedReadme.content, /\[!\[简体中文\]/);
+    assert.match(updatedReadme.content, /\[!\[Française\]/);
+    assert.doesNotMatch(updatedReadme.content, /Chinese \(China\)/);
+  });
+
   it("funciona de extremo a extremo con archivos y git simulados en disco", async () => {
     const repo = createTempRepo({ readme: "# Hola\n\nMundo.\n" });
     const { readdirSync, readFileSync, writeFileSync } = require("fs");
