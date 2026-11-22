@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
+[![Arabic](https://flagcdn.com/24x18/tw.png)](README.ar.md) [![French](https://flagcdn.com/24x18/tw.png)](README.fr.md) [![Hindi](https://flagcdn.com/24x18/tw.png)](README.hi.md) [![Chinese (China)](https://flagcdn.com/24x18/tw.png)](README.zh-CN.md) [![Chinese (Taiwan)](https://flagcdn.com/24x18/tw.png)](README.zh-TW.md)
 
 # रीडमी एक्शन का अनुवाद करें
 
@@ -68,7 +68,7 @@ jobs:
 
 ### लिबरट्रांसलेट का उपयोग करना (GitHub क्रियाओं में स्व-होस्ट किया गया)
 
-तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub एक्शन वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
+तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub Actions वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
 
 ```yaml
 name: Translate README
