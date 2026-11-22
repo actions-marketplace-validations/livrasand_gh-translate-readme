@@ -27,6 +27,10 @@ inputs:
     description: 'Comma-separated language codes to skip (e.g. "fr,es")'
     required: false
     default: ''
+  FLAG:
+    description: 'Country/flag code for the language badge (e.g. "cn", "fr")'
+    required: false
+    default: ''
   LANG_NAME:
     description: 'Display name for the target language used in badges (optional)'
     required: false

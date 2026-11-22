@@ -165,17 +165,29 @@ async function run(overrides = {}) {
           .sort();
         const badges = langs
           .map((code) => {
+            const countryCodes = {
+              en: "us",
+              "zh-CN": "cn",
+              "zh-TW": "tw",
+              hi: "in",
+              fr: "fr",
+              ar: "sa",
+              es: "es",
+              de: "de",
+              pt: "pt",
+              ja: "jp",
+              ko: "kr",
+              ru: "ru",
+              it: "it",
+            };
+            const cc = (deps.getInput("FLAG") || "").trim() || countryCodes[code] || code;
             let name = code;
             try {
               name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
             } catch {
               name = code;
             }
-            return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
-              name,
-            )}-100%25-white.svg?logo=ghtr-${encodeURIComponent(
-              code,
-            )}&labelColor=white&color=white)](README.${code}.md)`;
+            return `[![${name}](https://flagcdn.com/24x18/${cc}.png)](README.${code}.md)`;
           })
           .join(" ");
         const lines = mainReadme.split("\n");
