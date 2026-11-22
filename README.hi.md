@@ -1,3 +1,5 @@
+![Translated to hi](https://custom-icon-badges.demolab.com/badge/hi-100%25-white.svg?logo=translate)
+
 # रीडमी एक्शन का अनुवाद करें
 
 ## रीडमी अनुवाद
