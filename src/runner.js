@@ -188,10 +188,13 @@ async function run(overrides = {}) {
             } catch {
               name = code;
             }
+            const fallbackSlug = `ghtr-${String(code)
+              .toLowerCase()
+              .replace(/[^a-z0-9_-]/g, "-")}`;
             return `[![${name}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
               name,
-            )}-100%25-white.svg?logo=ghtr-${encodeURIComponent(
-              code,
+            )}-100%25-white.svg?logo=${encodeURIComponent(
+              fallbackSlug,
             )}&labelColor=white&color=white)](README.${code}.md)`;
           }
         });
