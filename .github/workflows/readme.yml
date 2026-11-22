@@ -34,21 +34,25 @@ jobs:
           LANG: zh-TW
           LANG_NAME: 繁体中文
           FLAG: tw
+          SHOW_PERCENTAGE: false
       - name: Adding README - Hindi
         uses: ./
         with:
           LANG: hi
           LANG_NAME: हिंदी
           FLAG: in
+          SHOW_PERCENTAGE: false
       - name: Adding README - Arabic
         uses: ./
         with:
           LANG: ar
           LANG_NAME: عربى
           FLAG: sa
+          SHOW_PERCENTAGE: false
       - name: Adding README - French
         uses: ./
         with:
           LANG: fr
           LANG_NAME: Française
           FLAG: fr
+          SHOW_PERCENTAGE: false
