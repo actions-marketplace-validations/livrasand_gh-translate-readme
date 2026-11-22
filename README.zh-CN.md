@@ -82,6 +82,7 @@ jobs:
 -   `IGNORE`：要跳过的以逗号分隔的语言代码（例如`fr,es`）。当语言已手动翻译时使用此选项，这样操作就不会覆盖它。
 -   `FLAG`：用于语言徽章的国家/国旗代码（例如`cn`,`fr`）。选修的;省略时默认为内置映射。
 -   `LANG_NAME`：徽章中使用的目标语言的显示名称（可选）。
+-   `SHOW_PERCENTAGE`：以语言徽章显示翻译百分比（`true`/`false`， 默认：`true`）。设置为`false`隐藏它。
 
 ### 使用 LibreTranslate（在 GitHub Actions 中自托管）
 
