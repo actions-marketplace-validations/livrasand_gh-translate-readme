@@ -1,6 +1,8 @@
-![Translated to ar](https://custom-icon-badges.demolab.com/badge/ar-100%25-white.svg?logo=ghtr-ar)
+![Translated to ar](https://custom-icon-badges.demolab.com/badge/ar-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)
 
-<!-- translate-readme:badges -->\n\n
+<!-- translate-readme:badges -->\n\n\n\n<!-- translate-readme:badges -->
+
+# ترجمة الإجراء التمهيدي
 
 ## اقرأني الترجمة
 
@@ -108,7 +110,7 @@ jobs:
 
 ### تطوير
 
-الاقتراحات والمساهمات هي موضع ترحيب دائما! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
+الاقتراحات والمساهمات هي دائما موضع ترحيب! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
 فتح طلب سحب.
 
 ### رخصة
