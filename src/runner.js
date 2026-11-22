@@ -16,6 +16,7 @@ const {
   resolveSourceLang,
 } = require("./config");
 const { createLibreTranslateClient } = require("./libretranslate");
+const { createFlagBadgeClient } = require("./flags");
 const { resolveSource } = require("./readme");
 const { toMarkdown } = require("./markdown");
 const { translateNodes } = require("./translator");
@@ -77,6 +78,13 @@ function buildDependencies(overrides = {}, adapters = {}) {
       return translateAdapter(text, { to: lang });
     });
 
+  const flagBadgeClient =
+    overrides.flagBadgeClient ||
+    createFlagBadgeClient({
+      fetchClient,
+      slugPrefix: "ghtr",
+    });
+
   return {
     cwd: process.cwd(),
     getInput,
@@ -85,6 +93,7 @@ function buildDependencies(overrides = {}, adapters = {}) {
     readFile: (path, encoding) => fsAdapter.readFileSync(path, encoding),
     writeFile: (path, data, encoding) => fsAdapter.writeFileSync(path, data, encoding),
     translate,
+    flagBadgeClient,
     createGit: () => gitAdapter(),
     sleep: defaultSleep,
     concurrency: 5,
@@ -163,23 +172,16 @@ async function run(overrides = {}) {
         const langs = files
           .map((name) => name.match(/^README\.(.+)\.md$/)[1])
           .sort();
-        const badges = langs
-          .map((code) => {
-            const countryCodes = {
-              en: "us",
-              "zh-CN": "cn",
-              "zh-TW": "tw",
-              hi: "in",
-              fr: "fr",
-              ar: "sa",
-              es: "es",
-              de: "de",
-              pt: "pt",
-              ja: "jp",
-              ko: "kr",
-              ru: "ru",
-              it: "it",
-            };
+        const badgePromises = langs.map(async (code) => {
+          try {
+            const explicitFlag = code === lang ? (deps.getInput("FLAG") || "").trim() : "";
+            const explicitName = code === lang ? (deps.getInput("LANG_NAME") || "").trim() : "";
+            const badge = await deps.flagBadgeClient(code, {
+              flag: explicitFlag,
+              langName: explicitName,
+            });
+            return badge.markdown;
+          } catch {
             let name = code;
             try {
               name = new Intl.DisplayNames(["en"], { type: "language" }).of(code) || code;
@@ -191,8 +193,9 @@ async function run(overrides = {}) {
             )}-100%25-white.svg?logo=ghtr-${encodeURIComponent(
               code,
             )}&labelColor=white&color=white)](README.${code}.md)`;
-          })
-          .join(" ");
+          }
+        });
+        const badges = (await Promise.all(badgePromises)).join(" ");
         const lines = mainReadme.split("\n");
         const filtered = [];
         let inserted = false;

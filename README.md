@@ -1,21 +1,10 @@
 <!-- translate-readme:badges -->
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
-# Translate Readme Action
-
-## README Translation
-- [English](README.md)
-- [简体中文](README.zh-CN.md)
-- [繁体中文](README.zh-TW.md)
-- [हिंदी](README.hi.md)
-- [Française](README.fr.md)
-- [عربى](README.ar.md)
+# GitHub Translate Readme Action
 
 **GitHub Action to translate Readme to any language**
 
 This is a GitHub Action that automatically translate the readme in your repo to a specified language.
-
-_A submission for the [DEV: GitHub Actions For Open Source!](https://dev.to/devteam/announcing-the-github-actions-hackathon-on-dev-3ljn) hackathon_
 
 ## Setup
 
@@ -28,6 +17,8 @@ on:
     branches:
       - main
       - master
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,19 +26,43 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      # ISO Language Codes: https://cloud.google.com/translate/docs/languages  
+      # ISO Language Codes: https://cloud.google.com/translate/docs/languages
       - name: Adding README - Chinese Simplified
-        uses: dephraiim/translate-readme@main
+        uses: ./
         with:
           LANG: zh-CN
+          LANG_NAME: 简体中文
+          FLAG: cn
+      - name: Adding README - Chinese Traditional
+        uses: ./
+        with:
+          LANG: zh-TW
+          LANG_NAME: 繁体中文
+          FLAG: tw
+      - name: Adding README - Hindi
+        uses: ./
+        with:
+          LANG: hi
+          LANG_NAME: हिंदी
+          FLAG: in
+      - name: Adding README - Arabic
+        uses: ./
+        with:
+          LANG: ar
+          LANG_NAME: عربى
+          FLAG: sa
       - name: Adding README - French
-        uses: dephraiim/translate-readme@main
+        uses: ./
         with:
           LANG: fr
+          LANG_NAME: Française
+          FLAG: fr
 ```
 
 ## Configuration
@@ -62,6 +77,8 @@ You can configure the action further with the following options:
 - `LIBRETRANSLATE_API_KEY`: API key if your LibreTranslate instance requires authentication (optional).
 - `SOURCE_LANG`: Source language code (default: `auto`).
 - `IGNORE`: Comma-separated language codes to skip (e.g. `fr,es`). Use this when a language has been translated manually so the action does not overwrite it.
+- `FLAG`: Country/flag code used for the language badge (e.g. `cn`, `fr`). Optional; defaults to a built-in mapping when omitted.
+- `LANG_NAME`: Display name for the target language used in badges (optional).
 
 ### Using LibreTranslate (Self-Hosted in GitHub Actions)
 
@@ -106,16 +123,8 @@ jobs:
 
 If you translate a README manually, add its language code to `IGNORE` (for example `IGNORE: fr,es`) in the workflow step for that language, or disable the step entirely, so the action does not overwrite your work. The `IGNORE` check runs before any translation or file write.
 
-### Issues
-
-Check [here](https://github.com/dephraiim/translate-readme/issues/1) for issues related to this action.
-
 ### Development
 
 Suggestions and contributions are always welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md)
 for test commands, error codes and debugging tips. Run `npm ci && npm run verify` before
 opening a pull request.
-
-### LICENSE
-
-[MIT](./LICENSE)

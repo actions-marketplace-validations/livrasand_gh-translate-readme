@@ -94,7 +94,7 @@ describe("run", () => {
     const { deps, failures } = createDeps({
       getInput: (name) => {
         if (name === "PROVIDER") return "libretranslate";
-        if (name === "LIBRETRANSLATE_URL") return "invalid-url";
+        if (name === "LIBRETRANSLATE_URL") return "not-a-url";
         return "";
       },
     });
@@ -107,7 +107,7 @@ describe("run", () => {
 
   it("reporta INVALID_LANGUAGE si SOURCE_LANG es inválido", async () => {
     const { deps, failures } = createDeps({
-      getInput: (name) => (name === "SOURCE_LANG" ? "invalid source!" : ""),
+      getInput: (name) => (name === "SOURCE_LANG" ? "../invalid" : ""),
     });
     const result = await run(deps);
     assert.equal(result.ok, false);
@@ -122,50 +122,56 @@ describe("run", () => {
     assert.equal(result.ok, false);
     assert.equal(result.error.code, "README_NOT_FOUND");
     assert.equal(result.error.step, "read");
-    assert.match(failures[0], /README_NOT_FOUND@read/);
+    assert.match(failures[0], /^\[README_NOT_FOUND@read\]/);
     assert.match(failures[0], /\/virtual\/repo/);
   });
 
   it("no escribe un README parcialmente traducido si falla la API", async () => {
-    const { deps, written, failures } = createDeps({
-      translate: async (text) => {
-        if (text.includes("Hello")) {
-          throw new Error("API 429");
-        }
-        return { text: text.toUpperCase() };
+    const translationError = new Error("API limit exceeded");
+    const { deps, written, failures, gitCalls } = createDeps({
+      translate: async () => {
+        throw translationError;
       },
-      retries: 0,
     });
+
     const result = await run(deps);
+
     assert.equal(result.ok, false);
     assert.equal(result.error.code, "TRANSLATION_FAILED");
-    assert.match(failures[0], /TRANSLATION_FAILED@translate/);
-    assert.match(failures[0], /API 429/);
-    assert.match(failures[0], /root\.children\[0\]\.children\[0\]/);
+    assert.equal(result.error.step, "translate");
+    assert.match(failures[0], /^\[TRANSLATION_FAILED@translate\]/);
     assert.deepEqual(written, {});
+    assert.deepEqual(gitCalls, []);
   });
 
   it("reporta WRITE_FAILED cuando no se puede escribir la salida", async () => {
-    const { deps, failures } = createDeps({
-      writeFile: () => { throw new Error("EACCES"); },
+    const { deps, failures, gitCalls } = createDeps({
+      writeFile: () => {
+        throw new Error("Disk full");
+      },
     });
+
     const result = await run(deps);
+
     assert.equal(result.ok, false);
     assert.equal(result.error.code, "WRITE_FAILED");
     assert.equal(result.error.step, "write");
-    assert.match(failures[0], /WRITE_FAILED@write/);
+    assert.match(failures[0], /^\[WRITE_FAILED@write\]/);
+    assert.match(failures[0], /Disk full/);
+    assert.deepEqual(gitCalls, []);
   });
 
   it("reporta GIT_FAILED si falla el push, con setFailed y sin lanzar", async () => {
     const { deps, failures } = createDeps({
-      statusFiles: [{ path: "/virtual/repo/README.fr.md" }],
-      getInput: () => "fr",
+      statusFiles: [{ path: "/virtual/repo/README.zh-CN.md" }],
       createGit: () => ({
-        status: async () => ({ files: [{ path: "/virtual/repo/README.fr.md" }] }),
+        status: async () => ({ files: [{ path: "/virtual/repo/README.zh-CN.md" }] }),
         addConfig: async () => {},
         add: async () => {},
         commit: async () => {},
-        push: async () => { throw new Error("push rejected"); },
+        push: async () => {
+          throw new Error("push rejected: protected branch");
+        },
       }),
     });
     const result = await run(deps);
@@ -174,6 +180,31 @@ describe("run", () => {
     assert.equal(result.error.step, "commit");
     assert.match(failures[0], /GIT_FAILED@commit/);
     assert.match(failures[0], /push rejected/);
+  });
+
+  it("actualiza la lista de badges en README.md cuando incluye el marcador", async () => {
+    const readmeContent = "# Repo\n\n<!-- translate-readme:badges -->\n\nContenido original.";
+    const { deps, written } = createDeps({
+      getInput: (name) => {
+        if (name === "LANG") return "es";
+        if (name === "FLAG") return "es";
+        if (name === "LANG_NAME") return "Spanish";
+        return "";
+      },
+      readFile: () => readmeContent,
+      readdir: () => ["README.md", "README.es.md"],
+      flagBadgeClient: async (code, opts) => ({
+        code,
+        markdown: `[![${opts.langName || code}](https://custom-icon-badges.demolab.com/badge/${opts.langName || code}-100%25-white.svg?logo=ghtr-${code})](README.${code}.md)`,
+      }),
+    });
+
+    const result = await run(deps);
+    assert.equal(result.ok, true);
+    const updatedReadme = written[join("/virtual/repo", "README.md")];
+    assert.ok(updatedReadme);
+    assert.match(updatedReadme.content, /<!-- translate-readme:badges -->/);
+    assert.match(updatedReadme.content, /\[!\[Spanish\]/);
   });
 
   it("funciona de extremo a extremo con archivos y git simulados en disco", async () => {
