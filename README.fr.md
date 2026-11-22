@@ -1,8 +1,6 @@
-![Translated to Française](https://custom-icon-badges.demolab.com/badge/Fran%C3%A7aise-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)
-
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
 # Traduire l’action Lisez-moi
 
@@ -66,6 +64,7 @@ Vous pouvez configurer davantage l'action avec les options suivantes :
 -   `LIBRETRANSLATE_URL`: L'URL de votre API LibreTranslate (par défaut :`http://localhost:5000`).
 -   `LIBRETRANSLATE_API_KEY`: Clé API si votre instance LibreTranslate nécessite une authentification (facultatif).
 -   `SOURCE_LANG`: Code de langue source (par défaut :`auto`).
+-   `IGNORE`: Codes de langue séparés par des virgules à ignorer (par ex.`fr,es`). Utilisez-le lorsqu'une langue a été traduite manuellement afin que l'action ne l'écrase pas.
 
 ### Utilisation de LibreTranslate (auto-hébergé dans les actions GitHub)
 
@@ -105,6 +104,10 @@ jobs:
 
 -   Lorsque vous utilisez Google Translate (`PROVIDER: google`) :[https://cloud.google.com/translate/docs/langues](https://cloud.google.com/translate/docs/languages)
 -   Lorsque vous utilisez LibreTranslate (`PROVIDER: libretranslate`) : Codes de langue standard ISO 639-1 (par ex.`es`,`fr`,`de`,`zh`,`hi`,`ar`, etc.) pris en charge par votre instance LibreTranslate.
+
+### Ignorer les langues traduites manuellement
+
+Si vous traduisez un README manuellement, ajoutez son code de langue à`IGNORE`(Par exemple`IGNORE: fr,es`) dans l'étape du flux de travail pour cette langue, ou désactivez entièrement l'étape afin que l'action n'écrase pas votre travail. Le`IGNORE`la vérification s'exécute avant toute traduction ou écriture de fichier.
 
 ### Problèmes
 
