@@ -1,6 +1,6 @@
-![Translated to ar](https://custom-icon-badges.demolab.com/badge/ar-100%25-white.svg?logo=translate)
+![Translated to ar](https://custom-icon-badges.demolab.com/badge/ar-100%25-white.svg?logo=ghtr-ar)
 
-# ترجمة الإجراء التمهيدي
+<!-- translate-readme:badges -->\n\n
 
 ## اقرأني الترجمة
 
@@ -58,7 +58,7 @@ jobs:
 يمكنك تكوين الإجراء بشكل أكبر باستخدام الخيارات التالية:
 
 -   `LANG`: اللغة التي تريد ترجمة الملف التمهيدي إليها (الافتراضي:`zh-CN`).
--   `PROVIDER`: مزود الترجمة للاستخدام:`google`(الافتراضي) أو`libretranslate`.
+-   `PROVIDER`: مزود الترجمة المطلوب استخدامه:`google`(الافتراضي) أو`libretranslate`.
 -   `LIBRETRANSLATE_URL`: عنوان URL لواجهة برمجة تطبيقات LibreTranslate (الافتراضي:`http://localhost:5000`).
 -   `LIBRETRANSLATE_API_KEY`: مفتاح API إذا كان مثيل LibreTranslate الخاص بك يتطلب المصادقة (اختياري).
 -   `SOURCE_LANG`: كود اللغة المصدر (الافتراضي:`auto`).
@@ -108,7 +108,7 @@ jobs:
 
 ### تطوير
 
-الاقتراحات والمساهمات هي دائما موضع ترحيب! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
+الاقتراحات والمساهمات هي موضع ترحيب دائما! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
 فتح طلب سحب.
 
 ### رخصة
