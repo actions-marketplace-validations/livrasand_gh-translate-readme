@@ -1,4 +1,4 @@
-![Translated to zh-CN](https://custom-icon-badges.demolab.com/badge/zh-CN-100%25-white.svg?logo=ghtr-zh-CN)
+![Translated to zh-CN](https://custom-icon-badges.demolab.com/badge/zh-CN-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)
 
 <!-- translate-readme:badges -->
 
