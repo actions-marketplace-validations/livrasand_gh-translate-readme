@@ -1,8 +1,6 @@
-![Translated to 繁体中文](https://custom-icon-badges.demolab.com/badge/%E7%B9%81%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)
-
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-CN&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-TW&labelColor=white&color=white)](README.zh-TW.md)
 
 # 翻譯自述文件操作
 
@@ -66,6 +64,7 @@ jobs:
 -   `LIBRETRANSLATE_URL`：LibreTranslate API 的 URL（預設值：`http://localhost:5000`）。
 -   `LIBRETRANSLATE_API_KEY`：API 金鑰（如果您的 LibreTranslate 實例需要驗證）（可選）。
 -   `SOURCE_LANG`：原始語言代碼（預設：`auto`）。
+-   `IGNORE`：要跳過的以逗號分隔的語言代碼（例如`fr,es`）。當語言已手動翻譯時使用此選項，這樣操作就不會覆寫它。
 
 ### 使用 LibreTranslate（在 GitHub Actions 中自架）
 
@@ -105,6 +104,10 @@ jobs:
 
 -   使用谷歌翻譯時（`PROVIDER: google`）：<https://cloud.google.com/translate/docs/languages>
 -   使用 LibreTranslate 時（`PROVIDER: libretranslate`)：標準 ISO 639-1 語言代碼（例如`es`,`fr`,`de`,`zh`,`hi`,`ar`等）由您的 LibreTranslate 實例支援。
+
+### 忽略手動翻譯的語言
+
+如果您手動翻譯 README，請將其語言程式碼新增至`IGNORE`（例如`IGNORE: fr,es`) 在該語言的工作流程步驟中，或完全停用該步驟，以便該操作不會覆寫您的工作。這`IGNORE`檢查在任何翻譯或文件寫入之前運行。
 
 ### 問題
 
