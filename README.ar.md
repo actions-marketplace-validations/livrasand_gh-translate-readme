@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![French](https://custom-icon-badges.demolab.com/badge/French-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![हिंदी](https://custom-icon-badges.demolab.com/badge/%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![Chinese (China)](https://custom-icon-badges.demolab.com/badge/Chinese%20(China)-100%25-white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![Chinese (Taiwan)](https://custom-icon-badges.demolab.com/badge/Chinese%20(Taiwan)-100%25-white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
+[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![Française](https://custom-icon-badges.demolab.com/badge/Fran%C3%A7aise-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![हिंदी](https://custom-icon-badges.demolab.com/badge/%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87--white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![繁体中文](https://custom-icon-badges.demolab.com/badge/%E7%B9%81%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
 
 # جيثب ترجمة الإجراء التمهيدي
 
@@ -82,6 +82,7 @@ jobs:
 -   `IGNORE`: رموز اللغة المفصولة بفواصل التي يجب تخطيها (على سبيل المثال:`fr,es`). استخدم هذا عندما تتم ترجمة لغة ما يدويًا حتى لا يحل الإجراء محلها.
 -   `FLAG`: رمز البلد/العلم المستخدم لشارة اللغة (على سبيل المثال:`cn`,`fr`). خياري؛ الإعدادات الافتراضية للتعيين المضمن عند حذفها.
 -   `LANG_NAME`: الاسم المعروض للغة الهدف المستخدمة في الشارات (اختياري).
+-   `SHOW_PERCENTAGE`: إظهار النسبة المئوية المترجمة في شارات اللغة (`true`/`false`، تقصير:`true`). اضبط على`false`لإخفائه.
 
 ### استخدام LibreTranslate (الاستضافة الذاتية في إجراءات GitHub)
 
@@ -128,5 +129,5 @@ jobs:
 
 ### تطوير
 
-الاقتراحات والمساهمات هي دائما موضع ترحيب! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
+الاقتراحات والمساهمات هي موضع ترحيب دائما! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
 فتح طلب سحب.
