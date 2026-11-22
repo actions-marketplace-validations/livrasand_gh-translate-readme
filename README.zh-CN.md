@@ -1,3 +1,5 @@
+![Translated to zh-CN](https://custom-icon-badges.demolab.com/badge/zh-CN-100%25-white.svg?logo=translate)
+
 # 翻译自述文件操作
 
 ## 自述文件翻译
