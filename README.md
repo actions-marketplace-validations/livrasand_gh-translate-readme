@@ -80,6 +80,7 @@ You can configure the action further with the following options:
 - `IGNORE`: Comma-separated language codes to skip (e.g. `fr,es`). Use this when a language has been translated manually so the action does not overwrite it.
 - `FLAG`: Country/flag code used for the language badge (e.g. `cn`, `fr`). Optional; defaults to a built-in mapping when omitted.
 - `LANG_NAME`: Display name for the target language used in badges (optional).
+- `SHOW_PERCENTAGE`: Show the translated percentage in language badges (`true`/`false`, default: `true`). Set to `false` to hide it.
 
 ### Using LibreTranslate (Self-Hosted in GitHub Actions)
 

@@ -100,6 +100,11 @@ function resolveSourceLang(input) {
   return source;
 }
 
+function resolveShowPercentage(input, fallback = true) {
+  const { resolveShowPercentage: resolve } = require("./flags");
+  return resolve(input, fallback);
+}
+
 module.exports = {
   DEFAULT_LANG,
   LANG_PATTERN,
@@ -113,4 +118,8 @@ module.exports = {
   resolveLibreTranslateUrl,
   resolveLibreTranslateApiKey,
   resolveSourceLang,
+  resolveShowPercentage,
+  resolveBadgePercentage: resolveShowPercentage,
+  resolveShowPercent: resolveShowPercentage,
+  resolveBadgeIconMode: (...args) => require("./flags").resolveBadgeIconMode(...args),
 };

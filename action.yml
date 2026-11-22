@@ -35,6 +35,18 @@ inputs:
     description: 'Display name for the target language used in badges (optional)'
     required: false
     default: ''
+  SHOW_PERCENTAGE:
+    description: 'Show the translated percentage in language badges (true/false)'
+    required: false
+    default: 'true'
+  SHOW_ICON:
+    description: 'Show a circular progress icon instead of the percentage (true/false)'
+    required: false
+    default: 'false'
+  BADGE_MODE:
+    description: 'Badge display mode: "percentage" or "icon"'
+    required: false
+    default: 'percentage'
 
 runs:
   using: 'node20'
