@@ -1,4 +1,6 @@
-![Translated to zh-CN](https://custom-icon-badges.demolab.com/badge/zh-CN-100%25-white.svg?logo=translate)
+![Translated to zh-CN](https://custom-icon-badges.demolab.com/badge/zh-CN-100%25-white.svg?logo=ghtr-zh-CN)
+
+<!-- translate-readme:badges -->
 
 # 翻译自述文件操作
 
