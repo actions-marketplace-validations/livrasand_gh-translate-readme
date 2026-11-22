@@ -1,6 +1,6 @@
 <!-- translate-readme:badges -->
 
-[![Arabic](https://custom-icon-badges.demolab.com/badge/Arabic-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![Française](https://custom-icon-badges.demolab.com/badge/Fran%C3%A7aise-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![Hindi](https://custom-icon-badges.demolab.com/badge/Hindi-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87--white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![繁体中文](https://custom-icon-badges.demolab.com/badge/%E7%B9%81%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
+[![عربى](https://custom-icon-badges.demolab.com/badge/%D8%B9%D8%B1%D8%A8%D9%89-100%25-white.svg?logo=ghtr-ar&labelColor=white&color=white)](README.ar.md) [![Française](https://custom-icon-badges.demolab.com/badge/Fran%C3%A7aise-100%25-white.svg?logo=ghtr-fr&labelColor=white&color=white)](README.fr.md) [![हिंदी](https://custom-icon-badges.demolab.com/badge/%E0%A4%B9%E0%A4%BF%E0%A4%82%E0%A4%A6%E0%A5%80-100%25-white.svg?logo=ghtr-hi&labelColor=white&color=white)](README.hi.md) [![简体中文](https://custom-icon-badges.demolab.com/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87--white.svg?logo=ghtr-zh-cn&labelColor=white&color=white)](README.zh-CN.md) [![繁体中文](https://custom-icon-badges.demolab.com/badge/%E7%B9%81%E4%BD%93%E4%B8%AD%E6%96%87-100%25-white.svg?logo=ghtr-zh-tw&labelColor=white&color=white)](README.zh-TW.md)
 
 # GitHub ट्रांसलेट रीडमी एक्शन
 
@@ -86,7 +86,7 @@ jobs:
 
 ### लिबरट्रांसलेट का उपयोग करना (GitHub क्रियाओं में स्व-होस्ट किया गया)
 
-तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub एक्शन वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
+तृतीय-पक्ष एपीआई सीमा या गोपनीयता संबंधी चिंताओं के बिना अनुवाद करने के लिए, आप लिबरट्रांसलेट को सीधे अपने GitHub Actions वर्कफ़्लो के अंदर डॉकर सेवा कंटेनर के रूप में चला सकते हैं:
 
 ```yaml
 name: Translate README
