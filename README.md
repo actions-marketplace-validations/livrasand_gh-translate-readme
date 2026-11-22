@@ -1,3 +1,5 @@
+<!-- translate-readme:badges -->
+
 # Translate Readme Action
 
 ## README Translation

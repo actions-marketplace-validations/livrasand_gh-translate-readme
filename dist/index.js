@@ -17699,8 +17699,36 @@ async function run(overrides = {}) {
       stats.total > 0 ? Math.round((stats.succeeded / stats.total) * 100) : 100;
     const badge = `![Translated to ${lang}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
       lang,
-    )}-${translatedPercent}%25-white.svg?logo=translate)\n\n`;
+    )}-${translatedPercent}%25-white.svg?logo=ghtr-${encodeURIComponent(lang)})\n\n`;
     deps.writeFile(outputPath, badge + toMarkdown(source.ast), "utf8");
+
+    // Optionally keep the main README's translation badge list up to date.
+    try {
+      const mainReadmePath = join(deps.cwd, "README.md");
+      let mainReadme = deps.readFile(mainReadmePath, "utf8");
+      const marker = "<!-- translate-readme:badges -->";
+      if (typeof mainReadme === "string" && mainReadme.includes(marker)) {
+        const files = deps.readdir(deps.cwd).filter((name) =>
+          /^README\\.[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*\\.md$/.test(name),
+        );
+        const langs = files
+          .map((name) => name.match(/^README\\.(.+)\\.md$/)[1])
+          .sort();
+        const badges = langs
+          .map(
+            (code) =>
+              `[![${code}](https://custom-icon-badges.demolab.com/badge/${encodeURIComponent(
+                code,
+              )}-white.svg?logo=ghtr-${encodeURIComponent(code)})](README.${code}.md)`,
+          )
+          .join(" ");
+        const replacement = `${marker}\\n${badges}\\n`;
+        mainReadme = mainReadme.replace(new RegExp(`${marker}[^]*?(?=\\n## |$)`), replacement);
+        deps.writeFile(mainReadmePath, mainReadme, "utf8");
+      }
+    } catch (error) {
+      logger.step("write", "Could not update main README badges", { error: error.message });
+    }
     logger.step("write", "Translated README written", { outputFile });
 
     step = "commit";
