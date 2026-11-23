@@ -131,3 +131,9 @@ jobs:
 
 隨時歡迎提出建議和貢獻！看[貢獻.md](./CONTRIBUTING.md)有關測試命令、錯誤代碼和調試提示。跑步`npm ci && npm run verify`之前
 打開拉取請求。
+
+* * *
+
+_✨感謝您的光臨**gh-翻譯-自述文件**！_
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
