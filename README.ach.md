@@ -68,7 +68,7 @@ jobs:
           FLAG: fr
 ```
 
-## Kit ma ki yubu kwede
+## Kit me yubu
 
 ### Jami ma itwero yero
 
@@ -129,5 +129,11 @@ Ka i loko README ki cingi, med coc me leb ne i`IGNORE`(La por`IGNORE: fr,es`) i 
 
 ### Dongo
 
-Tam ki kony ma kimiyo ki jolo kare ducu! Nen[CONTRIBUTING.md](./CONTRIBUTING.md)pi cik me temo, namba me bal ki yoo me cobo peko. Ngwec`npm ci && npm run verify`ma peya
+Tam ki kony ma kimiyo ki jolo kare ducu! Nen[CONTRIBUTING.md](./CONTRIBUTING.md)pi cik me temo, namba me peko ki yoo me cobo peko. Ngwec`npm ci && npm run verify`ma peya
 yabo lok me lwongo.
+
+* * *
+
+_✨ Wapyoyi pi bino**gh-gony-kwan**!_
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
