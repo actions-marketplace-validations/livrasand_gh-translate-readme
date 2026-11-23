@@ -72,7 +72,7 @@ jobs:
 
 ### Opsies
 
-U kan die aksie verder instel met die volgende opsies:
+U kan die aksie verder opstel met die volgende opsies:
 
 -   `LANG`: Die taal waarna jy jou leesmy wil vertaal (verstek:`zh-CN`).
 -   `PROVIDER`: Die vertaalverskaffer om te gebruik:`google`(verstek) of`libretranslate`.
@@ -84,7 +84,7 @@ U kan die aksie verder instel met die volgende opsies:
 -   `LANG_NAME`: Vertoon naam vir die teikentaal wat in kentekens gebruik word (opsioneel).
 -   `SHOW_PERCENTAGE`: Wys die vertaalde persentasie in taalkentekens (`true`/`false`, verstek:`true`). Stel op`false`om dit weg te steek.
 
-### Gebruik LibreTranslate (self-huisves in GitHub-aksies)
+### Gebruik LibreTranslate (self-huisves in GitHub Actions)
 
 Om te vertaal sonder derdeparty-API-limiete of privaatheidskwessies, kan jy LibreTranslate as 'n Docker-dienshouer direk binne jou GitHub Actions-werkvloei laat loop:
 
