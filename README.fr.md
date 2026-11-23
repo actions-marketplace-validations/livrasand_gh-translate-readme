@@ -125,9 +125,15 @@ jobs:
 
 ### Ignorer les langues traduites manuellement
 
-Si vous traduisez un README manuellement, ajoutez son code de langue à`IGNORE`(Par exemple`IGNORE: fr,es`) dans l'étape du flux de travail pour cette langue, ou désactivez complètement l'étape afin que l'action n'écrase pas votre travail. Le`IGNORE`la vérification s'exécute avant toute traduction ou écriture de fichier.
+Si vous traduisez un README manuellement, ajoutez son code de langue à`IGNORE`(Par exemple`IGNORE: fr,es`) dans l'étape du flux de travail pour cette langue, ou désactivez entièrement l'étape afin que l'action n'écrase pas votre travail. Le`IGNORE`la vérification s'exécute avant toute traduction ou écriture de fichier.
 
 ### Développement
 
 Les suggestions et contributions sont toujours les bienvenues ! Voir[CONTRIBUER.md](./CONTRIBUTING.md)pour les commandes de test, les codes d’erreur et les conseils de débogage. Courir`npm ci && npm run verify`avant
 ouvrir une pull request.
+
+* * *
+
+_✨ Merci de votre visite**gh-translate-lisez-moi**!_
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
