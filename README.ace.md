@@ -120,7 +120,7 @@ jobs:
 
 ## Bahasa nyang geudukong
 
--   Bak geungui Google Terjemahan (`PROVIDER: google`):[https://awan.google.com/terjemahan/dokumen/bahasa](https://cloud.google.com/translate/docs/languages)
+-   Bak geungui Google Terjemahan (`PROVIDER: google`):[https://awan.google.com/terjemahkan/dokumen/bahasa](https://cloud.google.com/translate/docs/languages)
 -   Bak geungui LibreTerjemahan (`PROVIDER: libretranslate`): Kode-kode bahsa standar ISO 639-1 (misaljih.`es`,`fr`,`de`,`zh`,`hi`,`ar`, dan laen-laen) nyang geudukong le instansi LibreTranslate droeneuh.
 
 ### Meuabaikan basa nyang geuterjeumah manual
@@ -129,7 +129,7 @@ Meunyo neuterjeumah saboh README seucara manual, neutamah kode basa jih keu .`IG
 
 ### Peurkembangan
 
-Saran dan sumbangan sabee ta teurimong! Kaloen[SUMBANGAN.md](./CONTRIBUTING.md)keu peurintah tes, kode kesalahan ngon tips debugging. Plueng`npm ci && npm run verify`seugolom
+Saran dan kontribusi sabee kamoe teurimong! Kaloen[SUMBANGAN.md](./CONTRIBUTING.md)keu peurintah tes, kode kesalahan ngon tips debugging. Plueng`npm ci && npm run verify`seugolom
 buka saboh permintaan tarik.
 
 * * *
