@@ -129,5 +129,11 @@ jobs:
 
 ### تطوير
 
-الاقتراحات والمساهمات هي موضع ترحيب دائما! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
+الاقتراحات والمساهمات هي دائما موضع ترحيب! يرى[المساهمة.md](./CONTRIBUTING.md)لأوامر الاختبار ورموز الأخطاء ونصائح التصحيح. يجري`npm ci && npm run verify`من قبل
 فتح طلب سحب.
+
+* * *
+
+_✨ شكرا على الزيارة**gh-ترجمة التمهيدي**!_
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
