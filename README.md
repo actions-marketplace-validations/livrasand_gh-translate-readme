@@ -130,3 +130,9 @@ If you translate a README manually, add its language code to `IGNORE` (for examp
 Suggestions and contributions are always welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md)
 for test commands, error codes and debugging tips. Run `npm ci && npm run verify` before
 opening a pull request.
+
+---
+
+*✨ Thanks for visiting **gh-translate-readme**!*
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
