@@ -131,3 +131,9 @@ As jy 'n README handmatig vertaal, voeg sy taalkode by`IGNORE`(byvoorbeeld`IGNOR
 
 Voorstelle en bydraes is altyd welkom! Sien[BYDRAEND.md](./CONTRIBUTING.md)vir toetsopdragte, foutkodes en ontfoutingswenke. Hardloop`npm ci && npm run verify`voor
 die opening van 'n trekversoek.
+
+* * *
+
+_✨ Dankie vir die besoek**gh-vertaal-lees my**!_
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
