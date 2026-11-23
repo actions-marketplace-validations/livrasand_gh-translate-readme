@@ -68,7 +68,7 @@ jobs:
           FLAG: fr
 ```
 
-## Kit me yubu
+## Kit ma ki yubu kwede
 
 ### Jami ma itwero yero
 
