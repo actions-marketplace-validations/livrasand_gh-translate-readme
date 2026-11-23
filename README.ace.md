@@ -84,7 +84,7 @@ Droeneuh jeuet neukonfigurasi tindakan nyan leubeh lanjot ngon opsi-opsi di miyu
 -   `LANG_NAME`: Tampilan nan keu basa target nyang geungui lam lencana (opsional).
 -   `SHOW_PERCENTAGE`: Peuleumah persentase nyang ka geuterjeumah lam lencana basa ( ).`true`/`false`, lagena:`true`). Setel keu`false`keu peusöm.
 
-### Meungui LibreTerjemahan (Geupeugot Keudroe lam Tindakan GitHub)
+### Meungui LibreTerjemahan (Geu-Host Keudroe lam Tindakan GitHub)
 
 Keu neuterjeumah hana bataih API pihak keu lhee atawa masalah privasi, droeneuh jeuet neujak LibreTranslate seubagoe wadah layanan Docker langsong lam alur buet GitHub Actions droeneuh:
 
@@ -131,3 +131,9 @@ Meunyo neuterjeumah saboh README seucara manual, neutamah kode basa jih keu .`IG
 
 Saran dan sumbangan sabee ta teurimong! Kaloen[SUMBANGAN.md](./CONTRIBUTING.md)keu peurintah tes, kode kesalahan ngon tips debugging. Plueng`npm ci && npm run verify`seugolom
 buka saboh permintaan tarik.
+
+* * *
+
+_✨ Teurimong geunaseh ka neukunjong**gh-neuterjeumah-meubaca**!_
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
