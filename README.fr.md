@@ -125,7 +125,7 @@ jobs:
 
 ### Ignorer les langues traduites manuellement
 
-Si vous traduisez un README manuellement, ajoutez son code de langue à`IGNORE`(Par exemple`IGNORE: fr,es`) dans l'étape du flux de travail pour cette langue, ou désactivez entièrement l'étape afin que l'action n'écrase pas votre travail. Le`IGNORE`la vérification s'exécute avant toute traduction ou écriture de fichier.
+Si vous traduisez un README manuellement, ajoutez son code de langue à`IGNORE`(Par exemple`IGNORE: fr,es`) dans l'étape du flux de travail pour cette langue, ou désactivez complètement l'étape afin que l'action n'écrase pas votre travail. Le`IGNORE`la vérification s'exécute avant toute traduction ou écriture de fichier.
 
 ### Développement
 
