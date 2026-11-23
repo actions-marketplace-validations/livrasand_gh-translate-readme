@@ -81,7 +81,7 @@ Ju mund ta konfiguroni veprimin më tej me opsionet e mëposhtme:
 -   `SOURCE_LANG`: Kodi i gjuhës burimore (e parazgjedhur:`auto`).
 -   `IGNORE`: Kodet e gjuhëve të ndara me presje për t'u kapërcyer (p.sh.`fr,es`). Përdoreni këtë kur një gjuhë është përkthyer manualisht në mënyrë që veprimi të mos e mbishkruajë atë.
 -   `FLAG`: Kodi i shtetit/flamurit i përdorur për distinktivin e gjuhës (p.sh.`cn`,`fr`). Fakultative; parazgjedhur për një hartë të integruar kur hiqet.
--   `LANG_NAME`: Emri i shfaqur për gjuhën e synuar të përdorur në distinktivë (opsionale).
+-   `LANG_NAME`: Emri i shfaqjes për gjuhën e synuar të përdorur në shënjat (opsionale).
 -   `SHOW_PERCENTAGE`: Shfaq përqindjen e përkthyer në distinktivët e gjuhës (`true`/`false`, e paracaktuar:`true`). Vendosur në`false`për ta fshehur.
 
 ### Përdorimi i LibreTranslate (i vetë-strehuar në Veprimet e GitHub)
@@ -125,9 +125,15 @@ jobs:
 
 ### Injorimi i gjuhëve të përkthyera manualisht
 
-Nëse e përktheni manualisht një README, shtoni kodin e tij të gjuhës`IGNORE`(për shembull`IGNORE: fr,es`) në hapin e rrjedhës së punës për atë gjuhë, ose çaktivizoni plotësisht hapin, në mënyrë që veprimi të mos e mbishkruajë punën tuaj. Të`IGNORE`kontrolli kryhet përpara çdo përkthimi ose shkrimi të skedarit.
+Nëse e përktheni manualisht një README, shtoni kodin e gjuhës së tij`IGNORE`(për shembull`IGNORE: fr,es`) në hapin e rrjedhës së punës për atë gjuhë, ose çaktivizoni plotësisht hapin, në mënyrë që veprimi të mos e mbishkruajë punën tuaj. Të`IGNORE`kontrolli kryhet përpara çdo përkthimi ose shkrimi të skedarit.
 
 ### Zhvillimi
 
-Sugjerimet dhe kontributet janë gjithmonë të mirëseardhura! Shihni[KONTRIBUUES.md](./CONTRIBUTING.md)për komandat e testimit, kodet e gabimit dhe këshilla për korrigjimin e gabimeve. Vraponi`npm ci && npm run verify`përpara
+Sugjerimet dhe kontributet janë gjithmonë të mirëseardhura! Shihni[KONTRIBUUES.md](./CONTRIBUTING.md)për komandat e testimit, kodet e gabimit dhe këshilla për korrigjimin e gabimeve. Vraponi`npm ci && npm run verify`para
 hapja e një kërkese për tërheqje.
+
+* * *
+
+_✨ Faleminderit për vizitën**gh-translate-lexo**!_
+
+<img src="https://visitor-badge.laobi.icu/badge?page_id=livrasand.gh-translate-readme&style=for-the-badge&color=00d4ff" alt="Views">
